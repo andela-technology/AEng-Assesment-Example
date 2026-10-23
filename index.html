@@ -1,0 +1,1266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Agentic Engineering Assessment Report</title>
+<meta name="description" content="Andela Research: what 100 engineers' Agentic Engineering assessments say about how the organization directs AI coding agents. Demonstration report built on synthetic data.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agentic Engineering Assessment Report">
+<meta property="og:description" content="Andela Research: what 100 engineers' Agentic Engineering assessments show about how they direct AI coding agents. Demonstration report built on synthetic data.">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Droid+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Andela Research design tokens, carried over from the
+   Nairobi Bluepaper and Emergent Role research series.
+   ============================================================ */
+/* Single light theme by design, matching the Andela Research series. */
+:root{
+  color-scheme:light;
+  --darker-kale:#10292C; --emerald:#338632; --dark-green-black:#424D53;
+  --lighter-green-black:#E7E9EA; --lightest-green-black:#F5F5F5;
+  --almost-white:#FAFAFA; --white:#FFFFFF;
+  --dark-kale:#1F3A3D; --teal:#307C84; --light-emerald:#7FC87C;
+  --lighter-emerald:#D9EED8; --lightest-emerald:#ECF7EC;
+  --light-kale:#7CBFC7; --lighter-kale:#E0F3F5; --lightest-kale:#F0FAFB;
+  --opal:#B0D6CE; --light-opal:#E7F2F0;
+  --ink:#10292C; --body:#424D53; --line:#E7E9EA; --accent:#338632;
+  --serif:'Droid Serif',Georgia,'Times New Roman',serif;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --maxw:1180px;
+  --sub:#5F6D68; --accent-text:#2B7129;
+  --loss:#B4531F; --loss-soft:#F4E3DA; --loss-text:#9A4519;
+  /* Alert red for cost callouts: 6.0:1 on its soft fill */
+  --alert:#B42318; --alert-soft:#FDF1EF; --alert-line:#F2CBC5;
+  /* Process vs. output: the report's central pairing. Dark = how the engineer
+     directed the agent. Mid kale = what the agent and engineer produced. */
+  --process:#1F3A3D; --output:#5FA8B0;
+  /* Engineer profiles. Validated as a categorical set (light surface):
+     all pass lightness, chroma, CVD (worst dE 13.6) and normal-vision floors. */
+  --seg-cond:#338632; --seg-pass:#2368B0; --seg-nav:#B88512; --seg-risk:#A6461A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--body);background:var(--white);
+  font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+h1,h2,h3,h4{color:var(--ink);line-height:1.2;letter-spacing:-0.3px;font-weight:600}
+a{color:var(--teal)} a:hover{color:var(--accent-text)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--emerald);outline-offset:2px;border-radius:4px}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+.container{max-width:var(--maxw);margin:0 auto;padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:max(28px,env(safe-area-inset-right,0px))}
+@media(max-width:640px){.container{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}}
+.tnum{font-variant-numeric:tabular-nums}
+section[id],figure[id],[id="top"]{scroll-margin-top:74px}
+.stat b,.vn,.fnum,.segcard .sn{font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1}
+section{padding:86px 0}
+@media(max-width:820px){section{padding:62px 0}}
+.section-alt{background:var(--almost-white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.section-dark{background:var(--darker-kale);color:var(--lighter-green-black)}
+.section-dark h2,.section-dark h3,.section-dark h4{color:var(--white)}
+.section-dark .eyebrow{color:var(--light-emerald)}
+.section-dark .lead{color:var(--opal)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sub)}
+h2.head{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,42px);margin-bottom:18px;max-width:24ch}
+h2.head.wide{max-width:36ch}
+h3.sub{font-family:var(--serif);font-weight:400;font-size:clamp(20px,2.4vw,25px);margin:38px 0 12px}
+.lead{font-size:20px;line-height:1.55;color:var(--dark-green-black);max-width:71ch}
+.lead+.narrow{margin-top:30px}
+.muted{color:var(--sub)}
+p+p{margin-top:17px}
+.narrow p,p.narrow{max-width:76ch}
+.narrow .lead,p.lead.narrow{max-width:71ch}
+.stat-sub{display:block;font-size:13px;line-height:1.5;color:var(--sub);font-variant-numeric:tabular-nums;margin-top:10px}
+.pull{border-left:3px solid var(--emerald);padding:6px 0 6px 26px;margin:38px 0;max-width:60ch}
+.pull.serif{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.8vw,28px);line-height:1.35;color:var(--ink)}
+.section-dark .pull.serif{color:var(--white);border-left-color:var(--light-emerald)}
+
+/* masthead */
+.masthead{border-bottom:1px solid var(--line);background:rgba(255,255,255,.88);
+  backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);position:sticky;top:env(safe-area-inset-top,0px);z-index:50}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--white)}
+.masthead .container{display:flex;align-items:center;justify-content:space-between;height:58px;gap:16px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;min-width:0}
+.logo{display:block;width:96px;height:22px;flex:none;background:url(data:image/png;base64,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) no-repeat left center/contain}
+.brand .div{width:1px;height:20px;background:var(--line);flex:none}
+.brand .tag{font-size:13px;font-weight:600;color:var(--dark-kale);letter-spacing:.02em;white-space:nowrap}
+.topnav a{font-size:13.5px;font-weight:600;color:var(--dark-kale);text-decoration:none;margin-left:22px}
+.topnav a:hover{color:var(--accent-text)}
+.topnav a{padding:4px 0;border-bottom:2px solid transparent;margin-left:18px}
+.topnav a[aria-current="true"]{color:var(--accent-text);border-bottom-color:var(--emerald)}
+@media(max-width:1060px){.topnav a{margin-left:12px;font-size:12.5px}}
+@media(max-width:940px){.topnav{display:none}}
+.skip{position:absolute;left:-9999px;top:0;background:var(--emerald);color:#fff;padding:10px 16px;z-index:99;border-radius:0 0 8px 0;font-size:14px;font-weight:600}
+.skip:focus{left:0;color:#fff}
+
+/* hero */
+.hero{position:relative;background:var(--darker-kale);color:var(--lighter-green-black);padding:96px 0 78px;overflow:hidden}
+.hero .container{position:relative;z-index:2}
+.spark-field{position:absolute;inset:0;z-index:1;opacity:.06;pointer-events:none;width:100%;height:100%}
+.hero .eyebrow{color:var(--light-emerald)}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.4rem,5.6vw,4.3rem);color:var(--white);max-width:30ch;margin:0 0 26px;letter-spacing:-.015em;text-wrap:balance}
+.hero .dek{font-size:20px;line-height:1.55;color:var(--opal);max-width:64ch}
+.hero .meta{margin-top:34px;font-size:13.5px;color:var(--light-kale);line-height:1.8}
+.hero .meta b{color:var(--lighter-green-black);font-weight:600}
+.badge{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--darker-kale);background:#F2C46D;padding:3px 9px;border-radius:5px;margin-right:8px;vertical-align:1px}
+
+/* stat strip */
+.statstrip{background:var(--dark-kale);color:var(--lighter-green-black);border-top:1px solid rgba(255,255,255,.09);padding:36px 0}
+.statstrip .container{display:flex;gap:20px;flex-wrap:wrap}
+.stat{flex:1 1 180px;min-width:160px}
+.stat b{display:block;font-family:var(--serif);font-weight:700;font-size:clamp(34px,4.4vw,46px);color:var(--white);line-height:1.05}
+.stat b small{font-size:.5em;font-weight:400;color:var(--opal);margin-left:2px}
+.stat>span{display:block;margin-top:8px;font-size:13.5px;color:var(--opal);max-width:26ch}
+@media(max-width:820px){.statstrip .container{gap:26px}.stat{flex:1 1 100%}}
+.synthnote{background:#FFF6E3;border-bottom:1px solid #EBD3A0;font-size:14px;color:var(--ink);padding:12px 0}
+.synthnote b{color:#7A5208}
+
+/* findings grid */
+.findgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+@media(max-width:900px){.findgrid{grid-template-columns:1fr}}
+.find{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:28px 26px 26px;box-shadow:0 10px 30px rgba(16,41,44,.05)}
+.find a{text-decoration:none;color:inherit}
+.fnum{font-family:var(--serif);font-weight:700;font-size:32px;color:var(--teal);line-height:1;margin-bottom:14px}
+.find h3{font-size:19.5px;margin-bottom:10px}
+.find p{font-size:15.5px;line-height:1.6}
+
+/* scenario cards / value cards */
+.valgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:34px}
+.valcard{border:1px solid var(--line);border-radius:12px;padding:20px;background:var(--white)}
+.valcard .kicker{display:flex;align-items:center;gap:8px}
+.valcard .kicker i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.valcard h4{font-size:17px;margin:10px 0 6px}
+.valcard p{font-size:14.5px;line-height:1.55}
+.valcard .w{margin-top:12px;font-size:13px;color:var(--sub)}
+.valcard.alert{background:var(--alert-soft);border-color:var(--alert-line);border-top:4px solid var(--alert)}
+.valcard.alert .vn{color:var(--alert)}
+.valcard.alert .vl{color:var(--ink)}
+.vn{font-family:var(--serif);font-weight:700;font-size:30px;color:var(--ink);line-height:1}
+.vl{font-size:14px;color:var(--body);margin-top:8px;line-height:1.5}
+
+/* stepper */
+.stepper{margin-top:38px;display:grid;grid-template-columns:1fr 1fr;gap:0 34px}
+@media(max-width:820px){.stepper{grid-template-columns:1fr}}
+.step{display:flex;gap:16px;padding:16px 0;border-bottom:1px dashed var(--lighter-green-black)}
+.step .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--white);border:2px solid var(--emerald);color:var(--accent-text);font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.step b{display:block;font-size:15.5px;color:var(--ink)}
+.step span{font-size:14.5px;color:var(--body);line-height:1.55}
+
+/* figures */
+.figure{margin:44px 0 0;border:1px solid var(--line);border-radius:14px;background:var(--white);padding:26px 26px 22px}
+@media(max-width:640px){.figure{padding:20px 14px 18px}}
+.figtitle{font-weight:600;font-size:21px;color:var(--ink);line-height:1.25}
+.figsub{font-size:14.5px;color:var(--body);margin-top:8px;max-width:78ch;line-height:1.55}
+.cap{font-size:13px;color:var(--sub);margin-top:16px;padding-top:14px;border-top:1px dashed var(--lighter-green-black);line-height:1.55;max-width:92ch}
+.chart{margin-top:20px;position:relative}
+.chart svg{display:block;overflow:visible}
+.chart text{font-family:var(--sans)}
+.ctrlrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+.ctrllab{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-right:2px}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--white)}
+.seg button{font-size:13px;font-weight:600;padding:7px 12px;border:0;background:transparent;color:var(--dark-kale);cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button:hover{background:var(--lightest-emerald)}
+.seg button[aria-pressed="true"]{background:var(--emerald);color:#fff}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--body);align-items:center;margin-top:16px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.legend .sq{border-radius:2px}
+.twocol{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:start}
+@media(max-width:900px){.twocol{grid-template-columns:1fr;gap:10px}}
+
+/* scenario weight pie */
+.wtwrap{display:grid;grid-template-columns:320px 1fr;gap:40px;align-items:center;margin-top:10px}
+@media(max-width:820px){.wtwrap{grid-template-columns:1fr;gap:18px;justify-items:center}.wtwrap>div{width:100%;min-width:0}}
+.wtwrap .chart svg path{cursor:pointer;transition:transform .25s ease}
+.wtwrap .chart svg path:focus{outline:none}
+.wtwrap .chart svg path:focus-visible{stroke:var(--emerald);stroke-width:3}
+.wtpanel{margin-top:18px;border-left:3px solid var(--wc,#1F3A3D);padding:4px 0 4px 20px;min-height:178px}
+.wtpanel .kicker{display:flex;align-items:center;gap:8px}
+.wtpanel .kicker i{width:10px;height:10px;border-radius:3px;display:inline-block;background:var(--wc)}
+.wtpanel h4{font-size:21px;margin:8px 0 6px}
+.wtpanel p{font-size:15px;line-height:1.6;max-width:62ch}
+.wtpanel .wmeta{display:flex;flex-wrap:wrap;gap:22px;margin-top:14px;font-size:13px;color:var(--sub)}
+.wtpanel .wmeta b{display:block;font-family:var(--serif);font-size:26px;color:var(--ink);line-height:1.1;font-variant-numeric:lining-nums tabular-nums}
+@media(prefers-reduced-motion:reduce){.wtwrap .chart svg path{transition:none}}
+
+/* profile cards */
+.seggrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
+@media(max-width:980px){.seggrid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.seggrid{grid-template-columns:1fr}}
+.segcard{border:1px solid var(--line);border-top:4px solid var(--c);border-radius:12px;padding:18px 18px 16px;background:var(--white)}
+.segcard .sn{font-family:var(--serif);font-weight:700;font-size:36px;line-height:1;color:var(--ink)}
+.segcard .sn small{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--sub);margin-left:6px}
+.segcard h4{font-size:17px;margin:10px 0 4px;display:flex;align-items:center;gap:8px}
+.segcard h4 i{width:11px;height:11px;border-radius:50%;background:var(--c);display:inline-block}
+.segcard .rule{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sub)}
+.segcard p{font-size:14.5px;line-height:1.55;margin-top:8px}
+
+/* callouts */
+.callout{margin-top:34px;border-radius:12px;padding:20px 22px;background:var(--lightest-kale);border-left:4px solid var(--teal);max-width:84ch}
+.callout.warn{background:var(--loss-soft);border-left-color:var(--loss)}
+.callout h4{font-size:16px;margin-bottom:6px}
+.callout p{font-size:15px;line-height:1.6}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+.tbl th{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--lightest-green-black);vertical-align:middle}
+.tbl td.r,.tbl th.r{text-align:right}
+.tbl td.c,.tbl th.c{text-align:center}
+.tbl tbody tr:hover{background:var(--lightest-kale)}
+.tblwrap{overflow-x:auto;margin-top:18px;-webkit-overflow-scrolling:touch}
+.heat{display:inline-block;min-width:44px;text-align:center;padding:4px 6px;border-radius:6px;font-weight:600}
+.compbar{display:flex;gap:2px;height:14px;min-width:160px}
+.compbar span{display:block;height:100%}
+.compbar span:first-child{border-radius:4px 0 0 4px}
+.compbar span:last-child{border-radius:0 4px 4px 0}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.pill i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.minibar{display:flex;align-items:center;gap:8px}
+.minibar span{display:block;height:8px;border-radius:0 4px 4px 0;background:var(--output)}
+.minibar span.p{background:var(--process)}
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover{color:var(--accent-text)}
+th.sortable[aria-sort="ascending"]::after{content:" ▲";font-size:9px}
+th.sortable[aria-sort="descending"]::after{content:" ▼";font-size:9px}
+select{font-family:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--white);color:var(--ink)}
+
+/* product cards */
+.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:40px;align-items:stretch}
+@media(max-width:1020px){.products{grid-template-columns:1fr;max-width:640px}}
+.prod{background:var(--white);color:var(--body);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 14px 40px rgba(0,0,0,.22)}
+.prod-head{background:var(--pc);color:var(--pf);padding:22px 24px 20px}
+.prod-tier{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.prod-name{font-family:var(--serif);font-weight:700;font-size:34px;line-height:1.05;margin-top:10px;font-variant-numeric:lining-nums}
+.prod-sub{font-size:15px;font-weight:600;margin-top:6px;line-height:1.35}
+.prod-body{padding:20px 24px 22px;display:flex;flex-direction:column;gap:16px;flex:1}
+.prod-promise{font-size:15.5px;line-height:1.55;color:var(--ink)}
+.prod-fit{background:var(--lightest-kale);border-radius:10px;padding:14px 16px}
+.prod-fit .fitn{font-size:14px;color:var(--ink);margin-top:4px}
+.prod-fit .fitn b{font-family:var(--serif);font-size:30px;font-weight:700;margin-right:4px;font-variant-numeric:lining-nums tabular-nums}
+.prod-fit .fitp{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px}
+.prod-fit p{font-size:13.5px;line-height:1.5;margin-top:8px;color:var(--body)}
+.prod dl{display:grid;gap:4px}
+.prod dt{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-top:8px}
+.prod dd{font-size:14.5px;line-height:1.55;color:var(--body)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chips span{font-size:12.5px;font-weight:600;color:var(--dark-kale);background:var(--lightest-green-black);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.prod-measure{margin-top:auto;padding-top:14px;border-top:1px dashed var(--lighter-green-black);font-size:13.5px;line-height:1.5;color:var(--body)}
+.prod-measure b{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-text)}
+.evidence{margin-top:28px;font-size:14px;line-height:1.6;color:var(--opal);max-width:90ch}
+.evidence b{color:var(--white)}
+.rec .rn.small,.rec .rn{word-break:normal}
+
+/* recommendations */
+.recs{display:grid;gap:18px;margin-top:38px}
+.rec{display:grid;grid-template-columns:64px 1fr;gap:18px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);border-radius:14px;padding:24px}
+.rec .rn{font-family:var(--serif);font-size:24px;padding-top:4px;font-weight:700;color:var(--light-emerald);line-height:1}
+.rec h3{font-size:20px;margin-bottom:8px}
+.rec p{font-size:15.5px;line-height:1.6;color:var(--lighter-green-black);max-width:80ch}
+.rec .who{margin-top:12px;font-size:13px;color:var(--opal)}
+.rec .who b{color:var(--white)}
+@media(max-width:640px){.rec{grid-template-columns:1fr;gap:6px}}
+.sizer{margin-top:44px;background:var(--white);color:var(--body);border-radius:14px;padding:26px}
+.sizer .figtitle{color:var(--ink)}
+.sliders{display:flex;flex-wrap:wrap;gap:26px;margin-top:18px}
+.sliders label{font-size:13.5px;font-weight:600;color:var(--ink);display:flex;flex-direction:column;gap:6px;min-width:240px}
+.sliders output{font-weight:700;color:var(--accent-text)}
+input[type=range]{accent-color:var(--emerald);width:100%}
+.sizetot{display:flex;flex-wrap:wrap;gap:26px;margin-top:22px}
+.sizetot div{min-width:150px}
+
+/* limits */
+.limits{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:8px 40px}
+@media(max-width:820px){.limits{grid-template-columns:1fr}}
+.lim{display:flex;gap:14px;padding:18px 0;border-bottom:1px dashed var(--lighter-green-black)}
+.lim .dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--loss);margin-top:9px}
+.lim h4{font-size:16.5px;margin-bottom:5px}
+.lim p{font-size:14.5px;line-height:1.6}
+
+/* footer */
+.foot{border-top:1px solid var(--line);background:var(--darker-kale);color:var(--lighter-green-black);padding:34px 0}
+.foot .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.foot .logo{filter:brightness(0) invert(1);opacity:.92}
+.foot .tag{font-size:13px;color:var(--opal)}
+
+/* Content is visible at rest; the reveal is only a small lift as sections enter. */
+.fade{transition:transform .6s ease}
+.fade:not(.in){transform:translateY(10px)}
+@media(prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;transition:none}}
+.gtip{position:fixed;pointer-events:none;background:var(--darker-kale);color:#fff;font-size:12.5px;line-height:1.5;padding:9px 12px;border-radius:8px;opacity:0;transition:opacity .12s;max-width:280px;z-index:80;box-shadow:0 10px 26px rgba(16,41,44,.28)}
+.gtip.show{opacity:1}
+.gtip b{color:var(--light-emerald)}
+.gtip .t{font-weight:700;color:#fff;margin-bottom:3px}
+details.more{margin-top:18px}
+details.more summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--teal)}
+@media print{.masthead,.ctrlrow,.gtip{display:none}.fade{opacity:1;transform:none}section{padding:40px 0}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="container">
+    <a class="brand" href="#top">
+      <span class="logo" role="img" aria-label="Andela"></span>
+      <span class="div" aria-hidden="true"></span>
+      <span class="tag">Research</span>
+    </a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#summary">Overview</a>
+      <a href="#gap">Finding 1</a>
+      <a href="#profiles">Finding 2</a>
+      <a href="#behaviours">Finding 3</a>
+      <a href="#session">Finding 4</a>
+      <a href="#teams">Finding 5</a>
+      <a href="#recommendations">Recommendations</a>
+    </nav>
+  </div>
+</header>
+
+<noscript><div style="background:#F4E3DA;border-bottom:1px solid #B4531F;padding:14px 28px;font-size:15px;color:#10292C">This report draws its figures and statistics in the browser. With JavaScript disabled you will see the text but not the numbers.</div></noscript>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- ============================================================ HERO -->
+<div class="hero">
+  <div class="container">
+    <p class="eyebrow">Andela Research · Agentic Engineering Assessment report</p>
+    <h1>Your engineers’ AI output looks ready, but how they direct it does not.</h1>
+    <p class="dek"><span data-n="n"></span> engineers across six teams took the Agentic Engineering assessment. The work they handed in was mostly good, but the session logs behind it show that most of them let the agent decide what to build, how to build it, and whether it was finished.</p>
+    <p class="meta">
+      <span class="badge">Demonstration</span>Built on a synthetic cohort, modelled on real assessment records
+    </p>
+  </div>
+</div>
+
+<div class="statstrip">
+  <div class="container">
+    <div class="stat"><b data-n="n"></b><span>engineers assessed on four timed agentic scenarios</span></div>
+    <div class="stat"><b><span data-n="outcomeMed"></span><small>/100</small></b><span>median score for what they produced</span></div>
+    <div class="stat"><b><span data-n="harnessMed"></span><small>/100</small></b><span>median score for how they directed the agent</span></div>
+    <div class="stat"><b data-n="nCond"></b><span>engineers do both well, enough to lead an agentic team today</span></div>
+  </div>
+</div>
+<div class="synthnote"><div class="container"><b>About this data.</b> This is a demonstration. Every engineer, team and score below was generated from a seeded statistical model whose shape comes from multiple real, anonymized assessment records. No real employee is described.</div></div>
+
+<!-- ============================================================ SUMMARY -->
+<section id="summary" class="body">
+  <div class="container">
+    <p class="eyebrow fade">The short version</p>
+    <h2 class="head fade">The agent is doing the engineering but too few engineers are directing it.</h2>
+    <div class="narrow fade">
+      <p class="lead">The assessment grades what the engineer delivered separately from how they ran the AI agent that helped them deliver it. Those two scores should move together, but across this cohort they barely do (correlation <span data-n="corrPO"></span>).</p>
+      <p>Output is healthy, with the median engineer scoring <span data-n="fullstackMed"></span> on the full-stack build, <span data-n="ragMed"></span> on the AI-systems diagnosis and <span data-n="webMed"></span> on the production debugging task. A leadership dashboard that tracks only shipped work would call this team ready.</p>
+      <p>Direction is not, with a median score of <span data-n="harnessMed"></span> out of 100 for how engineers steered the agent and <span data-n="harnessBelow50"></span> of <span data-n="n"></span> engineers scoring below 50. Most did not ask the agent to explore the codebase before it built, did not push back on its plan, and did not demand proof that the result worked.</p>
+      <blockquote class="pull serif">Strong output with weak direction is a risk that doesn’t show up yet. It holds until the codebase, the requirement or the model changes. Then nobody in the loop is checking the agent.</blockquote>
+      <p>The good news is that steering is a habit, not a talent. It is concentrated in a small set of behaviours (orient, plan, parallelize, verify) that can be taught. This report shows who already has them, where the gaps sit by team, and what it would take to close them.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ WHAT WE MEASURED -->
+<section id="assessment" class="section-alt body">
+  <div class="container">
+    <p class="eyebrow fade">What was assessed</p>
+    <h2 class="head fade">Four scenarios, two kinds of evidence</h2>
+    <p class="lead narrow fade">Each engineer worked through four timed, real-world scenarios with their own AI coding agent switched on. Blind human graders scored the results against a binary rubric of more than a hundred checks.</p>
+    <figure class="figure fade" id="fig-weights">
+      <figcaption>
+        <div class="figtitle">How the four scenarios make up the blended score</div>
+        <p class="figsub">Each slice is one scenario, sized by its weight in the blended score. Select a slice to see what the scenario tests and how the cohort scored on it.</p>
+      </figcaption>
+      <div class="wtwrap">
+        <div class="chart" id="weightpie"></div>
+        <div>
+          <div class="seg" role="group" aria-label="Choose a scenario" id="wt-pick"></div>
+          <div class="wtpanel" id="wtpanel" aria-live="polite"></div>
+        </div>
+      </div>
+    </figure>
+    <div class="narrow fade" style="margin-top:40px">
+      <p>The platform rolls the four scores into one blended score and places each engineer in one of three bands, <b>Ready</b> (75 and above), <b>Developing</b> (40 to 74) or <b>Foundational</b> (below 40). Across this cohort, <span data-n="ready"></span> engineers are Ready, <span data-n="developing"></span> are Developing and <span data-n="foundational"></span> are Foundational. The median blended score is <span data-n="blendedMed"></span>.</p>
+      <p>The blended score is a fair summary, but it hides the most useful fact in the data. The assessment allows AI throughout, so three of the four scores partly measure the agent. Only the Harness score isolates the engineer’s own contribution. That is why this report keeps <b>direction</b> and <b>output</b> apart.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FINDING 1 -->
+<section id="gap" class="body">
+  <div class="container">
+    <p class="eyebrow fade">Finding 01</p>
+    <h2 class="head fade">Output looks healthy. Direction doesn’t.</h2>
+    <p class="lead narrow fade">On the three output scenarios, seven in ten scores land between 55 and 95. On direction, the cohort piles up near the bottom of the scale.</p>
+
+    <figure class="figure fade" id="fig-strips">
+      <figcaption>
+        <div class="figtitle">Figure 1 · Every engineer’s score on each scenario</div>
+        <p class="figsub">Each dot is one engineer. Scores are reported in steps of five, so engineers with the same score stack into a small block. The ink line marks the cohort median.</p>
+      </figcaption>
+      <div class="chart" id="strips"></div>
+      <div class="legend">
+        <span><i style="background:var(--process)"></i>Direction (how the agent was run)</span>
+        <span><i style="background:var(--output)"></i>Output (what was delivered)</span>
+      </div>
+      <p class="cap">The median score was <b data-n="harnessMed"></b> on Harness, <b data-n="fullstackMed"></b> on Fullstack, <b data-n="ragMed"></b> on RAG and <b data-n="webMed"></b> on Web. The middle half of the cohort scored between <span data-n="harnessQ1"></span> and <span data-n="harnessQ3"></span> on Harness.</p>
+    </figure>
+
+    <div class="narrow fade" style="margin-top:48px">
+      <h3 class="sub">Why the two diverge</h3>
+      <p>The assessment is designed to allow AI. A capable agent given a clear brief will produce a working approval gate, a reasonable audit trail and a plausible root-cause list on its own. The output rubric credits those results whether or not the engineer shaped them. The Harness rubric credits only what the engineer did, meaning the instructions, corrections and checks they gave the agent.</p>
+      <p>So the gap between the two is a rough measure of how much of the output is the agent’s work. Across the cohort the median engineer’s output score sits <span data-n="medGap"></span> points above their direction score.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FINDING 2 PROFILES -->
+<section id="profiles" class="section-alt body">
+  <div class="container">
+    <p class="eyebrow fade">Finding 02</p>
+    <h2 class="head wide fade">Four engineer profiles, and the largest is the Passenger</h2>
+    <p class="lead narrow fade">Plot each engineer’s direction score against their output score and the cohort splits into four groups. Each group needs a different investment.</p>
+
+    <figure class="figure fade" id="fig-scatter">
+      <figcaption>
+        <div class="figtitle">Figure 2 · Direction against output, one dot per engineer</div>
+        <p class="figsub">The horizontal axis is the Harness score for how the engineer ran the agent, and the vertical axis is the average of the three output scenarios. The lines at 50 and 65 divide the four profiles. The ring marks the real assessment record featured later in this report. Hover over a dot for that engineer’s detail, or pick a team to highlight it.</p>
+      </figcaption>
+      <div class="ctrlrow">
+        <span class="ctrllab" id="sc-lab">Highlight</span>
+        <div class="seg" role="group" aria-labelledby="sc-lab" id="sc-teams"></div>
+      </div>
+      <div class="chart" id="scatter"></div>
+      <div class="legend" id="sc-legend"></div>
+      <p class="cap">Harness scores are reported in steps of five. Dots are nudged sideways by up to two points so that engineers with identical scores don’t hide each other. Direction and output correlate at <em>r</em> = <span data-n="corrPO"></span>.</p>
+    </figure>
+
+    <div class="seggrid">
+      <div class="segcard fade" style="--c:var(--seg-cond)"><div class="sn"><span data-n="nCond"></span><small>engineers</small></div>
+        <h4><i></i>Conductors</h4><div class="rule">Direction ≥ 50 · Output ≥ 65</div>
+        <p>They orient the agent, steer its plan and check its work, and the output shows it. These are your internal champions and future coaches.</p></div>
+      <div class="segcard fade" style="--c:var(--seg-pass)"><div class="sn"><span data-n="nPass"></span><small>engineers</small></div>
+        <h4><i></i>Passengers</h4><div class="rule">Direction &lt; 50 · Output ≥ 65</div>
+        <p>Good output, mostly the agent’s. They hand over the brief and accept what comes back. They are the largest group and the cheapest to move.</p></div>
+      <div class="segcard fade" style="--c:var(--seg-nav)"><div class="sn"><span data-n="nNav"></span><small>engineers</small></div>
+        <h4><i></i>Navigators</h4><div class="rule">Direction ≥ 50 · Output &lt; 65</div>
+        <p>They run the agent with discipline, but the engineering underneath is thinner. They need depth in testing, design and diagnosis, not AI habits.</p></div>
+      <div class="segcard fade" style="--c:var(--seg-risk)"><div class="sn"><span data-n="nRisk"></span><small>engineers</small></div>
+        <h4><i></i>At risk</h4><div class="rule">Direction &lt; 50 · Output &lt; 65</div>
+        <p>Weak on both. The agent isn’t covering the gap for them. They need a foundations track before agentic habits will stick.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FINDING 3 BEHAVIOURS -->
+<section id="behaviours" class="body">
+  <div class="container">
+    <p class="eyebrow fade">Finding 03</p>
+    <h2 class="head wide fade">The gaps sit in four habits of directing an agent</h2>
+    <p class="lead narrow fade">Engineers pass about three output checks in four, but only about one direction check in three. Just one of the eighteen direction checks, prioritizing under the clock, was passed by more than half the cohort.</p>
+
+    <figure class="figure fade" id="fig-dims">
+      <figcaption>
+        <div class="figtitle">Figure 3 · Share of rubric checks passed, by dimension</div>
+        <p class="figsub">The top four bars are the direction habits from the Harness rubric. The bottom five are the output dimensions of the full-stack build. Both rubrics grade the same 50 minutes of work.</p>
+      </figcaption>
+      <div class="chart" id="dims"></div>
+      <div class="legend">
+        <span><i class="sq" style="background:var(--process)"></i>Direction</span>
+        <span><i class="sq" style="background:var(--output)"></i>Output</span>
+      </div>
+      <p class="cap">Each bar is the average share of that dimension’s binary checks passed across all <span data-n="n"></span> engineers.</p>
+    </figure>
+
+    <figure class="figure fade" id="fig-items">
+      <figcaption>
+        <div class="figtitle">Figure 4 · How many of the <span data-n="n"></span> engineers showed each direction behaviour</div>
+        <p class="figsub">The eighteen Harness checks, grouped by habit and sorted from rarest to most common. Behaviours shown by a quarter of the cohort or fewer are highlighted.</p>
+      </figcaption>
+      <div class="chart" id="items"></div>
+      <p class="cap">Graders award each check from the session log, so a behaviour counts only if the engineer actually directed it, not if the agent happened to do it.</p>
+    </figure>
+
+    <div class="narrow fade" style="margin-top:48px">
+      <h3 class="sub">What the rarest behaviours have in common</h3>
+      <p>The four behaviours seen in a quarter or fewer of engineers are parallelizing work, using their own tooling, catching the agent out, and asking for a gap analysis. All four treat the agent as something to manage rather than something to type at. They are also the behaviours that multiply output on real work, because parallel agents shorten delivery and catching a faked test stops a defect before review.</p>
+      <p><span data-n="fTxn"></span> engineers’ submissions wrote the audit record in the same transaction as the change, a subtle and correct design. Only <span data-n="iPlan"></span> engineers actively steered the agent’s plan. The agent supplied the good design and the engineers mostly accepted it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FINDING 4 SESSION -->
+<section id="session" class="section-alt body">
+  <div class="container">
+    <p class="eyebrow fade">Finding 04</p>
+    <h2 class="head wide fade">Where the prompts go inside each session</h2>
+    <p class="lead narrow fade">Every prompt in every session log was sorted into one of five kinds. Conductors spend <span data-n="steerCond"></span>% of their prompts steering the agent; Passengers spend <span data-n="steerPass"></span>%. Across the cohort, a third of all prompts went on setup before any real work began.</p>
+
+    <figure class="figure fade" id="fig-mix">
+      <figcaption>
+        <div class="figtitle">Figure 5 · Share of prompts by kind, for each profile</div>
+        <p class="figsub">Each row is one kind of prompt. Each dot shows what share of that profile’s prompts were of that kind.</p>
+      </figcaption>
+      <div class="chart" id="mix"></div>
+      <div class="legend" id="mix-legend"></div>
+      <p class="cap">Steering covers instructions that shape design, scope, workflow or verification. Setup and access covers environment, Git and authentication. Pasting the brief means copying task text into the agent. Handing judgment to the agent means asking it what to do or whether to submit its answer. Status and time checks are messages about time left or progress. The median session had about <span data-n="turnsMed"></span> prompts. Steering share correlates with the Harness score at <em>r</em> = <span data-n="corrSteer"></span>.</p>
+    </figure>
+
+    <div class="valgrid alertgrid" style="margin-top:34px">
+      <div class="valcard alert fade"><div class="vn"><span data-n="setupMed"></span> min</div><div class="vl">median time lost to setup, Git and sign-in before the first real instruction</div></div>
+      <div class="valcard alert fade"><div class="vn" data-n="setupOver10"></div><div class="vl">engineers lost more than ten minutes of a timed task to their environment</div></div>
+      <div class="valcard alert fade"><div class="vn"><span data-n="setupHours"></span> h</div><div class="vl">engineer-hours lost to setup across the cohort in a single sitting</div></div>
+      <div class="valcard alert fade"><div class="vn"><span data-n="passDelegTime"></span>%</div><div class="vl">of Passengers’ prompts were time checks or questions to the agent, against <span data-n="condDelegTime"></span>% for Conductors</div></div>
+    </div>
+
+    <div class="narrow fade" style="margin-top:44px">
+      <p>Setup friction is the cheapest problem in this report to fix, and it is not a skill problem. A third of all prompts in the cohort (<span data-n="setupAll"></span>%) went to getting the agent access to the repository. That points to a developer-environment gap, where agents lack pre-authorised Git access, repositories lack agent instructions, and local permission profiles block the tools the agent needs.</p>
+    </div>
+
+    <div id="anatomy" class="narrow fade" style="margin-top:64px">
+      <p class="kicker">One session, up close</p>
+      <h3 class="sub" style="margin-top:8px">What a Passenger’s 47 minutes actually look like</h3>
+      <p class="lead">This is one of the real assessment records the cohort was modelled on. The engineer’s output scored well, but their direction score was 5.</p>
+    </div>
+
+    <figure class="figure fade" id="fig-timeline">
+      <figcaption>
+        <div class="figtitle">Figure 6 · All 33 prompts in one engineer’s session, by minute and kind</div>
+        <p class="figsub">Dots are placed by elapsed time and sized by how much the engineer wrote. Hover over a dot to read a paraphrase of the prompt.</p>
+      </figcaption>
+      <div class="chart" id="timeline"></div>
+      <p class="cap">This record scored 5 on Harness, 70 on Fullstack, 100 on RAG and 85 on Web, for a blended score of 50, the Developing band and a Passenger profile. Prompts are paraphrased and stripped of identifying detail.</p>
+    </figure>
+
+    <div class="twocol" style="margin-top:44px">
+      <div class="narrow fade">
+        <h3 class="sub" style="margin-top:0">What the graders saw</h3>
+        <p>The first 18 minutes went on cloning the repository and signing in to GitHub. The engineer then pasted the brief a second time and asked “you have all the requirement with you?”. Three of the next five prompts were countdowns (“we have 9 mins”, “6 mins left”, “only 3 mins”).</p>
+        <p>The agent still delivered a working approval gate and a complete audit trail, so the build scored 70. The Harness rubric found one habit out of eighteen, prioritizing under the clock. The agent was never asked to explore the code, its plan was never questioned, and nothing it claimed was checked.</p>
+      </div>
+      <div class="narrow fade">
+        <h3 class="sub" style="margin-top:0">The perfect score</h3>
+        <p>On the RAG incident the engineer scored 100, the highest possible, and the session log shows how. They pasted the brief, asked the agent for root causes, asked it to “reevaluate again with far more deeper thoughts”, then asked “so what to do, copy paste as answers?”.</p>
+        <p>The answer was excellent, but it was also the agent’s answer, and the graders flagged it as copy-pasted AI output with minimal editing. On paper this engineer is a top RAG diagnostician, but in practice nobody yet knows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ FINDING 6 TEAMS -->
+<section id="teams" class="body">
+  <div class="container">
+    <p class="eyebrow fade">Finding 05</p>
+    <h2 class="head wide fade">The gaps are not evenly spread</h2>
+    <p class="lead narrow fade">Digital Channels and Cloud Platform steer the agent best, while Core Banking has the most engineers at risk. Data Platform diagnoses AI failures better than any team but directs the agent worse than most.</p>
+
+    <figure class="figure fade" id="fig-teams">
+      <figcaption>
+        <div class="figtitle">Figure 7 · Median scores and profile mix, by team</div>
+        <p class="figsub">Cells are shaded from light to dark as the median rises. The bar on the right shows how each team splits across the four profiles. Hover over a segment for the count.</p>
+      </figcaption>
+      <div class="tblwrap"><table class="tbl" id="teamtbl"></table></div>
+      <div class="legend" id="team-legend"></div>
+      <p class="cap">Team sizes range from 14 to 20, so a difference of one or two engineers in any profile is within noise. Read the pattern, not the decimal.</p>
+    </figure>
+
+    <div class="narrow fade" style="margin-top:44px">
+      <p><b>Core Banking</b> is the clearest case for intervention, with <span data-n="cbRisk"></span> of its <span data-n="cbN"></span> engineers at risk and a median blended score of <span data-n="cbB"></span>, the lowest of any team. Its setup friction was also the highest, which points partly to a legacy environment that agents struggle to reach, not only to the people.</p>
+      <p><b>Data Platform</b> shows the Passenger pattern at team scale. Its median RAG score was <span data-n="dpR"></span>, the best in the organization, but its median direction score was <span data-n="dpH"></span>. Some of that diagnostic strength is real, since this team works on data pipelines, but some of it is the agent.</p>
+    </div>
+
+    <figure class="figure fade" id="seniority">
+      <figcaption>
+        <div class="figtitle">Figure 8 · Median scores by seniority and by agent tool</div>
+        <p class="figsub">One small chart per scenario. Direction stays flat with seniority while diagnosis climbs steeply. Switch to the tool view to compare the three coding agents.</p>
+      </figcaption>
+      <div class="ctrlrow">
+        <span class="ctrllab" id="sl-lab">Group by</span>
+        <div class="seg" role="group" aria-labelledby="sl-lab" id="sl-mode">
+          <button type="button" data-k="bySen" aria-pressed="true">Seniority</button>
+          <button type="button" data-k="byTool" aria-pressed="false">Agent tool</button>
+        </div>
+      </div>
+      <div class="chart" id="slices"></div>
+      <p class="cap">Bars show the median score for each group. The numbers under each label are group sizes.</p>
+    </figure>
+
+    <div class="narrow fade" style="margin-top:44px">
+      <p>The seniority result is the one most likely to surprise. Leads score a median of <span data-n="senRL"></span> on the RAG diagnosis against <span data-n="senRA"></span> for associates, which is what years of incidents buy you. On direction the medians are just <span data-n="senHL"></span> and <span data-n="senHA"></span>, because agentic direction is new enough that experience hasn’t produced it yet. Only <span data-n="leadsCond"></span> of <span data-n="leadsN"></span> Leads are Conductors, so the people expected to set the standard for AI-assisted work mostly don’t practise it yet.</p>
+      <p>Tool choice matters less than habit, since Claude Code and Codex users share a direction median of <span data-n="toolHCC"></span>. Copilot CLI users sit lower at <span data-n="toolHCP"></span>, and <span data-n="toolPassCP"></span> of <span data-n="toolNCP"></span> are Passengers. That gap is more plausibly about how the tool has been rolled out (as autocomplete, not as an agent to direct) than about the tool itself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ RECOMMENDATIONS -->
+<section id="recommendations" class="section-dark">
+  <div class="container">
+    <p class="eyebrow fade">Recommendations</p>
+    <h2 class="head wide fade">Three ways to close the gap</h2>
+    <p class="lead narrow fade">Each profile in this cohort needs a different investment. Andela offers one for each, from building the foundations to shipping a production AI system alongside your team.</p>
+
+    <div class="products">
+      <article class="prod fade" style="--pc:#7FC87C;--pf:#10292C">
+        <header class="prod-head">
+          <div class="prod-tier">Foundations</div>
+          <div class="prod-name">Andela 101</div>
+          <div class="prod-sub">Foundational individual agent use</div>
+        </header>
+        <div class="prod-body">
+          <p class="prod-promise">Build consistent agentic use and the judgment to direct, verify, debug, refactor, test, and build simple agents.</p>
+          <div class="prod-fit">
+            <div class="kicker">In this cohort</div>
+            <div class="fitn"><b data-n="track101"></b> engineers</div>
+            <div class="fitp"><span class="pill"><i style="background:#A6461A"></i><span data-n="trackB"></span> at risk</span><span class="pill"><i style="background:#B88512"></i><span data-n="trackC"></span> Navigators</span></div>
+            <p>Weak on both direction and output, so the agent isn’t covering the gap for them.</p>
+          </div>
+          <dl>
+            <dt>Who it’s for</dt><dd>Software engineers and engineering teams adopting agentic AI workflows in production environments.</dd>
+            <dt>Curriculum objective</dt><dd>Build confident, consistent agentic Copilot use, and the judgment to direct and verify AI-assisted work.</dd>
+            <dt>Format</dt><dd><div class="chips"><span>2-day intensive or 2 weeks</span><span>6 modules</span><span>Live workshops</span><span>Guided practice</span><span>Capstone</span></div></dd>
+          </dl>
+          <p class="prod-measure"><b>Measured by</b> output and Harness scores together at re-assessment</p>
+        </div>
+      </article>
+
+      <article class="prod fade" style="--pc:#338632;--pf:#FFFFFF">
+        <header class="prod-head">
+          <div class="prod-tier">Advanced</div>
+          <div class="prod-name">Andela 201</div>
+          <div class="prod-sub">Complex agent orchestration</div>
+        </header>
+        <div class="prod-body">
+          <p class="prod-promise">Apply advanced agentic engineering capabilities, including orchestration and multi-agent patterns, to more complex individual workflows.</p>
+          <div class="prod-fit">
+            <div class="kicker">In this cohort</div>
+            <div class="fitn"><b data-n="trackA"></b> engineers</div>
+            <div class="fitp"><span class="pill"><i style="background:#2368B0"></i><span data-n="trackA"></span> Passengers</span></div>
+            <p>Good output but weak direction. Only <span data-n="iPar"></span> engineers parallelized work and <span data-n="iCatch"></span> caught the agent cutting a corner.</p>
+          </div>
+          <dl>
+            <dt>Who it’s for</dt><dd>Engineers with foundational agentic workflow fluency who are ready to take on more complex, multi-step agentic workflows.</dd>
+            <dt>Curriculum objective</dt><dd>Apply advanced agentic engineering capability across complex workflows, including delegation, integrations, and multi-agent orchestration.</dd>
+            <dt>Format</dt><dd><div class="chips"><span>6 weeks</span><span>22 hours total</span><span>10 live sessions</span><span>Hands-on practice</span><span>Capstone</span></div></dd>
+          </dl>
+          <p class="prod-measure"><b>Measured by</b> the Harness median, the Passenger count, and the parallelization and verification checks</p>
+        </div>
+      </article>
+
+      <article class="prod fade" style="--pc:#307C84;--pf:#FFFFFF">
+        <header class="prod-head">
+          <div class="prod-tier">Delivery</div>
+          <div class="prod-name">Andela 301</div>
+          <div class="prod-sub">Build and deploy a production AI solution</div>
+        </header>
+        <div class="prod-body">
+          <p class="prod-promise">Work with Andela to build a live AI system in your real codebase, while enabling your team through hands-on delivery.</p>
+          <div class="prod-fit">
+            <div class="kicker">In this cohort</div>
+            <div class="fitn"><b data-n="augHeads"></b> embedded Andela engineers</div>
+            <div class="fitp"><span class="pill"><i style="background:#338632"></i><span data-n="nCond"></span> Conductors</span><span class="pill"><i style="background:#5F6D68"></i><span data-n="trackTrain"></span> engineers to coach</span></div>
+            <p>Your Conductors are the natural coaches, but they also carry delivery. Andela engineers fill the gap across <span data-n="augTeamsN"></span> teams.</p>
+          </div>
+          <dl>
+            <dt>How it works</dt><dd>Andela leads a scoped delivery engagement while your engineers build alongside our team through hands-on work, coaching, and feedback. Responsibility shifts as capability grows.</dd>
+            <dt>Curriculum objective</dt><dd><b>Delivery.</b> A real business or engineering priority moves.<br><b>Capability.</b> Build individual and systems capability.</dd>
+            <dt>Engagement principles</dt><dd><div class="chips"><span>Real work</span><span>Shared delivery</span><span>Measurable outcomes</span><span>Progressive ownership</span></div></dd>
+          </dl>
+          <p class="prod-measure"><b>Measured by</b> a real priority shipped, and each team’s Conductor share at re-assessment</p>
+        </div>
+      </article>
+    </div>
+
+    <p class="evidence fade"><b>Evidence from Andela research.</b> In a study of 41 professional engineers, two weeks of structured instruction raised assessed agentic proficiency from 69% to 81%, with the largest gains among those who started lowest. That study used a knowledge test rather than this performance assessment, so treat it as direction, not a forecast.</p>
+
+    <div class="recs">
+      <div class="rec fade"><div class="rn">Then</div><div>
+        <h3>Re-assess in 90 days and report direction and output separately</h3>
+        <p>Run the same assessment after the program and track the Harness median, the Passenger count and the ownership flags alongside output. Stop reporting a single blended number to leadership, because it lets a capable agent hide a disengaged engineer.</p>
+        <p class="who">Set targets with your team for the Harness median, Conductor share and ownership flags</p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <span class="logo" role="img" aria-label="Andela"></span>
+    <span class="tag">Andela Research · Agentic Engineering cohort report · Demonstration on synthetic data · © 2026 Andela</span>
+  </div>
+</footer>
+
+<div class="gtip" id="gtip" role="tooltip" aria-hidden="true"></div>
+
+<script>
+"use strict";
+/* ================================================================
+   DATA LAYER. Every number on this page originates here. Prose
+   carries <span data-n="key"> placeholders filled from DATA.num,
+   which is computed by build.py from the same seeded dataset that
+   draws the figures. Nothing is typed twice.
+   ================================================================ */
+var DATA = {"weights":{"harness":0.42,"fullstack":0.26,"rag":0.16,"web":0.16},"cuts":{"process":50,"outcome":65},"items":[{"id":"h_or1","scenario":"harness","dim":"Orienting","label":"Sent the agent to explore the user flow and code before building","rate":41},{"id":"h_or2","scenario":"harness","dim":"Orienting","label":"Asked for a gap analysis of existing capability vs. requirements","rate":24},{"id":"h_or3","scenario":"harness","dim":"Orienting","label":"Reviewed the agent's understanding before letting it build","rate":26},{"id":"h_pl1","scenario":"harness","dim":"Planning","label":"Steered the agent's plan instead of taking it as given","rate":33},{"id":"h_pl2","scenario":"harness","dim":"Planning","label":"Directed a centralized audit mechanism, not per-route copy-paste","rate":47},{"id":"h_pl3","scenario":"harness","dim":"Planning","label":"Directed audit scope beyond RFPs to other high-stakes actions","rate":28},{"id":"h_pl4","scenario":"harness","dim":"Planning","label":"Directed re-evaluation of approval when the RFP changes","rate":36},{"id":"h_pl5","scenario":"harness","dim":"Planning","label":"Directed server-side enforcement of the gate, not UI-only","rate":43},{"id":"h_pl6","scenario":"harness","dim":"Planning","label":"Resolved the discount-threshold ambiguity (deal vs. line, 20% boundary)","rate":30},{"id":"h_wf1","scenario":"harness","dim":"Workflow","label":"Prioritized under the clock with an explicit trade-off","rate":67},{"id":"h_wf2","scenario":"harness","dim":"Workflow","label":"Parallelized work (concurrent sessions, sub-agents or worktrees)","rate":9},{"id":"h_wf3","scenario":"harness","dim":"Workflow","label":"Directed two distinct pull requests, one per feature","rate":27},{"id":"h_wf4","scenario":"harness","dim":"Workflow","label":"Drove the harness with own tooling or working files","rate":15},{"id":"h_wf5","scenario":"harness","dim":"Workflow","label":"Overrode an agent decision or declined a permission","rate":29},{"id":"h_ve1","scenario":"harness","dim":"Verifying","label":"Got real evidence that the change worked","rate":38},{"id":"h_ve2","scenario":"harness","dim":"Verifying","label":"Caught the agent out on a shortcut, fake or convention breach","rate":21},{"id":"h_ve3","scenario":"harness","dim":"Verifying","label":"Stood up a working dev environment for real verification","rate":32},{"id":"h_ve4","scenario":"harness","dim":"Verifying","label":"Directed testing (automated tests or red/green TDD)","rate":28},{"id":"f_cq1","scenario":"fullstack","dim":"Code quality","label":"Audit write shares the action's transaction","rate":91},{"id":"f_cq2","scenario":"fullstack","dim":"Code quality","label":"Centralized audit emission","rate":86},{"id":"f_cq3","scenario":"fullstack","dim":"Code quality","label":"No duplicated blocks of 10+ lines","rate":87},{"id":"f_cq4","scenario":"fullstack","dim":"Code quality","label":"Event names centralized","rate":88},{"id":"f_cq5","scenario":"fullstack","dim":"Code quality","label":"Threshold constant defined once and shared","rate":94},{"id":"f_cq6","scenario":"fullstack","dim":"Code quality","label":"Reused existing auth dependencies","rate":68},{"id":"f_cq7","scenario":"fullstack","dim":"Code quality","label":"Single source of truth for 'needs approval?'","rate":66},{"id":"f_cq8","scenario":"fullstack","dim":"Code quality","label":"No oversized functions","rate":63},{"id":"f_ts1","scenario":"fullstack","dim":"Tests","label":"Audit behaviour covered by own tests","rate":89},{"id":"f_ts2","scenario":"fullstack","dim":"Tests","label":"Approval gate and re-evaluation covered by tests","rate":89},{"id":"f_ts3","scenario":"fullstack","dim":"Tests","label":"Tests assert persisted state, not just status codes","rate":56},{"id":"f_ts4","scenario":"fullstack","dim":"Tests","label":"Adversarial negative paths prove forbidden state unchanged","rate":52},{"id":"f_ap1","scenario":"fullstack","dim":"Approval workflow","label":"Submission blocked at threshold until approved","rate":85},{"id":"f_ap2","scenario":"fullstack","dim":"Approval workflow","label":"After approval, the same submit succeeds","rate":84},{"id":"f_ap3","scenario":"fullstack","dim":"Approval workflow","label":"Approval invalidated when discount raised","rate":71},{"id":"f_ap4","scenario":"fullstack","dim":"Approval workflow","label":"Rejection is recoverable, not a dead end","rate":75},{"id":"f_ap5","scenario":"fullstack","dim":"Approval workflow","label":"Approval restricted to an elevated role","rate":65},{"id":"f_co1","scenario":"fullstack","dim":"Collaboration","label":"Incremental, meaningful commits","rate":76},{"id":"f_co2","scenario":"fullstack","dim":"Collaboration","label":"No unrelated file changes","rate":79},{"id":"f_co3","scenario":"fullstack","dim":"Collaboration","label":"Split the two tasks into two reviewable PRs","rate":53},{"id":"f_au1","scenario":"fullstack","dim":"Audit trail","label":"Pending line-item accept/dismiss audited","rate":84},{"id":"f_au2","scenario":"fullstack","dim":"Audit trail","label":"Bulk CSV import audited","rate":75},{"id":"f_au3","scenario":"fullstack","dim":"Audit trail","label":"Line-item create, update and delete audited","rate":89},{"id":"f_au4","scenario":"fullstack","dim":"Audit trail","label":"RFP lifecycle incl. mark-won audited","rate":79},{"id":"r_dd","scenario":"rag","dim":"Priority causes","label":"Data drift in new-customer language explained","rate":82},{"id":"r_rc","scenario":"rag","dim":"Priority causes","label":"Retrieval calibration explained","rate":58},{"id":"r_ar","scenario":"rag","dim":"Priority causes","label":"Async / race condition explained","rate":68},{"id":"r_pr","scenario":"rag","dim":"Reasoning","label":"Ranked causes by fit to the evidence","rate":77},{"id":"r_nc","scenario":"rag","dim":"Reasoning","label":"Looked for causes that only affect new customers","rate":62},{"id":"r_wr","scenario":"rag","dim":"Reasoning","label":"Clear, concise pre-read","rate":87},{"id":"w_d1","scenario":"web","dim":"Diagnosis","label":"Noticed profile counts differ between passing and failing users","rate":78},{"id":"w_d2","scenario":"web","dim":"Diagnosis","label":"Isolated the failing social networks","rate":68},{"id":"w_d3","scenario":"web","dim":"Diagnosis","label":"Recognized the database error","rate":75},{"id":"w_d4","scenario":"web","dim":"Diagnosis","label":"Found the profile-ID type mismatch","rate":62},{"id":"w_doc","scenario":"web","dim":"Documentation","label":"Documented the exact error message","rate":71},{"id":"w_fix","scenario":"web","dim":"Documentation","label":"Suggested a code fix","rate":68},{"id":"w_c1","scenario":"web","dim":"Communication","label":"Explained the issue to customer support","rate":71},{"id":"w_c2","scenario":"web","dim":"Communication","label":"Gave support a timeline or next action","rate":64},{"id":"w_c3","scenario":"web","dim":"Communication","label":"Suggested a temporary workaround","rate":71},{"id":"w_c4","scenario":"web","dim":"Communication","label":"Offered to follow up with support or engineering","rate":40}],"agg":{"n":100,"harness":{"median":25.0,"mean":31.4,"q1":10.0,"q3":50.0,"min":0,"max":85},"fullstack":{"median":70.0,"mean":67.7,"q1":55.0,"q3":80.0,"min":25,"max":95},"rag":{"median":85.0,"mean":74.6,"q1":60.0,"q3":96.25,"min":5,"max":100},"web":{"median":70.0,"mean":64.2,"q1":53.75,"q3":80.0,"min":5,"max":100},"blended":{"median":52.0,"mean":53.0,"q1":41.0,"q3":63.0,"min":17,"max":88},"outcome":{"median":73.0,"mean":68.8,"q1":61.5,"q3":80.0,"min":27,"max":92},"bands":{"Ready":10,"Developing":70,"Foundational":20},"segments":{"Conductor":23,"Passenger":43,"Navigator":8,"At risk":26},"corrPO":0.31,"gapMedian":38.5,"outcomeAbove70":59,"harnessBelow50":69,"harnessBelow25":46,"hdims":{"Orienting":30,"Planning":36,"Workflow":29,"Verifying":30},"fdims":{"Code quality":80,"Tests":72,"Approval workflow":76,"Collaboration":69,"Audit trail":82},"setupMedian":12.2,"setupOver10":59,"setupHours":24.5,"turnsMedian":26.5,"mixAll":{"setup":33.6,"paste":14.7,"steer":29.5,"deleg":12.4,"time":9.7},"mixBySeg":{"Conductor":{"setup":31.8,"paste":13.9,"steer":43.9,"deleg":5.6,"time":4.8},"Passenger":{"setup":35.0,"paste":15.5,"steer":22.2,"deleg":15.4,"time":11.9},"Navigator":{"setup":27.4,"paste":14.3,"steer":46.4,"deleg":6.3,"time":5.6},"At risk":{"setup":35.9,"paste":14.6,"steer":17.3,"deleg":18.2,"time":13.9}},"corrSteerHarness":0.84,"firstSteerMedian":18.15,"unedited":39,"ragHigh":47,"ragHighUnedited":19,"ragHighLowHarness":23,"passHighOut":10,"byTeam":[{"name":"Payments","n":20,"harness":25.0,"fullstack":70.0,"rag":85.0,"web":65.0,"blended":51.5,"outcome":72.5,"ready":3,"segs":{"Conductor":5,"Passenger":9,"Navigator":1,"At risk":5}},{"name":"Core Banking","n":19,"harness":20,"fullstack":65,"rag":65,"web":60,"blended":41,"outcome":63,"ready":1,"segs":{"Conductor":4,"Passenger":4,"Navigator":1,"At risk":10}},{"name":"Digital Channels","n":18,"harness":40.0,"fullstack":70.0,"rag":92.5,"web":70.0,"blended":57.5,"outcome":76.5,"ready":2,"segs":{"Conductor":5,"Passenger":9,"Navigator":2,"At risk":2}},{"name":"Data Platform","n":15,"harness":20,"fullstack":65,"rag":95,"web":75,"blended":52,"outcome":80,"ready":1,"segs":{"Conductor":3,"Passenger":9,"Navigator":0,"At risk":3}},{"name":"Cloud Platform","n":14,"harness":40.0,"fullstack":77.5,"rag":72.5,"web":65.0,"blended":53.5,"outcome":69.0,"ready":2,"segs":{"Conductor":3,"Passenger":5,"Navigator":3,"At risk":3}},{"name":"Risk & Compliance Tech","n":14,"harness":17.5,"fullstack":75.0,"rag":85.0,"web":62.5,"blended":47.0,"outcome":72.5,"ready":1,"segs":{"Conductor":3,"Passenger":7,"Navigator":1,"At risk":3}}],"bySen":[{"name":"Associate","n":30,"harness":22.5,"fullstack":70.0,"rag":65.0,"web":65.0,"blended":51.5,"outcome":67.5,"ready":1,"segs":{"Conductor":6,"Passenger":10,"Navigator":3,"At risk":11}},{"name":"Senior","n":48,"harness":30.0,"fullstack":70.0,"rag":90.0,"web":70.0,"blended":51.5,"outcome":73.0,"ready":8,"segs":{"Conductor":14,"Passenger":20,"Navigator":3,"At risk":11}},{"name":"Lead / Staff","n":22,"harness":27.5,"fullstack":70.0,"rag":97.5,"web":70.0,"blended":52.0,"outcome":78.0,"ready":1,"segs":{"Conductor":3,"Passenger":13,"Navigator":2,"At risk":4}}],"byTool":[{"name":"Claude Code","n":41,"harness":30,"fullstack":70,"rag":90,"web":70,"blended":52,"outcome":73,"ready":6,"segs":{"Conductor":12,"Passenger":18,"Navigator":3,"At risk":8}},{"name":"Codex","n":33,"harness":30,"fullstack":70,"rag":65,"web":60,"blended":53,"outcome":68,"ready":3,"segs":{"Conductor":9,"Passenger":8,"Navigator":3,"At risk":13}},{"name":"Copilot CLI","n":26,"harness":15.0,"fullstack":70.0,"rag":92.5,"web":75.0,"blended":51.5,"outcome":78.0,"ready":1,"segs":{"Conductor":2,"Passenger":17,"Navigator":2,"At risk":5}}]},"num":{"n":"100","harnessMed":"25","outcomeMed":"73","fullstackMed":"70","ragMed":"85","webMed":"70","blendedMed":"52","harnessQ1":"10","harnessQ3":"50","medGap":"48","ready":"10","developing":"70","foundational":"20","nCond":"23","nPass":"43","nNav":"8","nRisk":"26","corrPO":"0.31","corrSteer":"0.84","out65":"66","out65weak":"43","harnessBelow50":"69","harnessBelow25":"46","hOr":"30","hPl":"36","hWf":"29","hVe":"30","fCq":"80","fTs":"72","fAp":"76","fCo":"69","fAu":"82","hDimMax":"36","fDimMin":"69","iPar":"9","iTool":"15","iCatch":"21","iGap":"24","iTest":"28","iEvid":"38","iPlan":"33","iExplore":"41","iTwoPr":"27","fTwoPr":"53","fTxn":"91","nRare":"4","setupMed":"12","setupOver10":"59","setupHours":"24.5","turnsMed":"27","steerAll":"30","steerCond":"44","steerPass":"22","steerRisk":"17","passDelegTime":"27","condDelegTime":"10","setupAll":"34","unedited":"39","ragHigh":"47","ragHighUnedited":"19","ragHighLowHarness":"23","ragHighClean":"28","leadsN":"22","leadsPass":"13","leadsCond":"3","senHA":"22.5","senHS":"30","senHL":"27.5","senRA":"65","senRS":"90","senRL":"97.5","toolHCC":"30","toolHCX":"30","toolHCP":"15","toolPassCP":"17","toolNCP":"26","cbN":"19","cbRisk":"10","cbH":"20","cbB":"41","dcH":"40","cpH":"40","dpR":"95","dpH":"20","rcH":"17.5","trackA":"43","trackB":"26","trackC":"8","upskill":"77","augHeads":"15","augMax":"3","augMaxTeam":"Payments","augTeamsN":"6","track101":"34","trackTrain":"69","ratio":"3","availPct":"50"},"engineers":[{"id":"E-001","team":"Cloud Platform","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":2.5,"harness":15,"fullstack":80,"rag":80,"web":75,"blended":52,"band":"Developing","outcome":78,"segment":"Passenger","unedited":0,"minutes":42,"turns":30,"setup":6.0,"mix":{"setup":5,"steer":11,"time":5,"deleg":6,"paste":3},"passes":"0000000011000000101111110011011111101111111111011101111110"},{"id":"E-002","team":"Payments","seniority":"Associate","tool":"Codex","tenure":2.2,"harness":60,"fullstack":85,"rag":65,"web":90,"blended":72,"band":"Developing","outcome":80,"segment":"Conductor","unedited":0,"minutes":46,"turns":34,"setup":14.8,"mix":{"setup":11,"steer":14,"time":2,"deleg":3,"paste":4},"passes":"1110110010011010011111111011011111011111111100111111101111"},{"id":"E-003","team":"Payments","seniority":"Senior","tool":"Codex","tenure":2.0,"harness":15,"fullstack":70,"rag":45,"web":70,"blended":43,"band":"Developing","outcome":62,"segment":"At risk","unedited":0,"minutes":49,"turns":13,"setup":30,"mix":{"setup":7,"steer":2,"time":1,"deleg":2,"paste":1},"passes":"0001100001000000001111111011111110101011110011011110101110"},{"id":"E-004","team":"Core Banking","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":8.4,"harness":5,"fullstack":65,"rag":80,"web":55,"blended":41,"band":"Developing","outcome":67,"segment":"Passenger","unedited":1,"minutes":45,"turns":25,"setup":30,"mix":{"setup":14,"steer":2,"time":3,"deleg":3,"paste":3},"passes":"0000000001000000001111111110101111101010111110011010111001"},{"id":"E-005","team":"Core Banking","seniority":"Associate","tool":"Codex","tenure":2.5,"harness":0,"fullstack":70,"rag":35,"web":85,"blended":37,"band":"Foundational","outcome":63,"segment":"At risk","unedited":0,"minutes":48,"turns":9,"setup":12.8,"mix":{"setup":3,"steer":0,"time":2,"deleg":3,"paste":1},"passes":"0000000000000000001111110111111111101011111000011111101110"},{"id":"E-006","team":"Digital Channels","seniority":"Senior","tool":"Codex","tenure":3.7,"harness":50,"fullstack":70,"rag":80,"web":60,"blended":62,"band":"Developing","outcome":70,"segment":"Conductor","unedited":0,"minutes":47,"turns":27,"setup":10.2,"mix":{"setup":7,"steer":11,"time":2,"deleg":3,"paste":4},"passes":"1100011111000010101111111111001101011111101011111110001010"},{"id":"E-007","team":"Data Platform","seniority":"Associate","tool":"Copilot CLI","tenure":1.5,"harness":5,"fullstack":70,"rag":35,"web":45,"blended":33,"band":"Foundational","outcome":50,"segment":"At risk","unedited":1,"minutes":41,"turns":30,"setup":16.9,"mix":{"setup":12,"steer":3,"time":4,"deleg":5,"paste":6},"passes":"0000000001000000001111111111001110101101110100010011001110"},{"id":"E-008","team":"Cloud Platform","seniority":"Senior","tool":"Codex","tenure":2.7,"harness":55,"fullstack":80,"rag":20,"web":20,"blended":50,"band":"Developing","outcome":40,"segment":"Navigator","unedited":1,"minutes":38,"turns":28,"setup":5.1,"mix":{"setup":5,"steer":16,"time":1,"deleg":1,"paste":5},"passes":"1001111111010101001111101111101110111111100001010000100110"},{"id":"E-009","team":"Risk & Compliance Tech","seniority":"Associate","tool":"Claude Code","tenure":3.0,"harness":80,"fullstack":80,"rag":40,"web":70,"blended":72,"band":"Developing","outcome":63,"segment":"Navigator","unedited":0,"minutes":44,"turns":29,"setup":9.6,"mix":{"setup":6,"steer":12,"time":3,"deleg":4,"paste":4},"passes":"1111111111000111101111101111111110111111111000011110101110"},{"id":"E-010","team":"Digital Channels","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":4.3,"harness":45,"fullstack":85,"rag":100,"web":80,"blended":70,"band":"Developing","outcome":88,"segment":"Passenger","unedited":0,"minutes":41,"turns":38,"setup":12.9,"mix":{"setup":12,"steer":11,"time":4,"deleg":5,"paste":6},"passes":"1100000001010100111111001111011111111111111111111111011110"},{"id":"E-011","team":"Digital Channels","seniority":"Senior","tool":"Claude Code","tenure":2.9,"harness":65,"fullstack":75,"rag":95,"web":80,"blended":75,"band":"Ready","outcome":83,"segment":"Conductor","unedited":0,"minutes":50,"turns":42,"setup":8.6,"mix":{"setup":8,"steer":22,"time":2,"deleg":2,"paste":8},"passes":"0111111111010010011111111111011111110111111111101111011010"},{"id":"E-012","team":"Cloud Platform","seniority":"Associate","tool":"Codex","tenure":3.6,"harness":25,"fullstack":80,"rag":65,"web":85,"blended":55,"band":"Developing","outcome":77,"segment":"Passenger","unedited":0,"minutes":43,"turns":26,"setup":6.1,"mix":{"setup":5,"steer":8,"time":4,"deleg":5,"paste":4},"passes":"0001110010000000101101111011110111111111111001111111101011"},{"id":"E-013","team":"Risk & Compliance Tech","seniority":"Associate","tool":"Claude Code","tenure":1.5,"harness":10,"fullstack":75,"rag":100,"web":45,"blended":47,"band":"Developing","outcome":73,"segment":"Passenger","unedited":0,"minutes":47,"turns":24,"setup":17.6,"mix":{"setup":11,"steer":3,"time":3,"deleg":4,"paste":3},"passes":"1001000000000000001110111111011111111100111111110101101010"},{"id":"E-014","team":"Digital Channels","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":4.2,"harness":10,"fullstack":70,"rag":100,"web":85,"blended":52,"band":"Developing","outcome":85,"segment":"Passenger","unedited":1,"minutes":44,"turns":12,"setup":7.0,"mix":{"setup":2,"steer":1,"time":2,"deleg":3,"paste":4},"passes":"0000000101000000001111110111111111101011111111111110111111"},{"id":"E-015","team":"Risk & Compliance Tech","seniority":"Senior","tool":"Claude Code","tenure":2.6,"harness":5,"fullstack":65,"rag":85,"web":45,"blended":40,"band":"Developing","outcome":65,"segment":"Passenger","unedited":1,"minutes":47,"turns":20,"setup":23.7,"mix":{"setup":11,"steer":2,"time":2,"deleg":3,"paste":2},"passes":"0000000000000010001101111001111110011000111111001011101000"},{"id":"E-016","team":"Risk & Compliance Tech","seniority":"Senior","tool":"Claude Code","tenure":4.1,"harness":15,"fullstack":80,"rag":40,"web":15,"blended":36,"band":"Foundational","outcome":45,"segment":"At risk","unedited":0,"minutes":42,"turns":35,"setup":7.0,"mix":{"setup":7,"steer":5,"time":8,"deleg":10,"paste":5},"passes":"1000000001000000001111111111101111110111110100110010100000"},{"id":"E-017","team":"Data Platform","seniority":"Senior","tool":"Codex","tenure":2.0,"harness":10,"fullstack":90,"rag":100,"web":55,"blended":52,"band":"Developing","outcome":82,"segment":"Passenger","unedited":1,"minutes":45,"turns":18,"setup":9.7,"mix":{"setup":5,"steer":2,"time":3,"deleg":4,"paste":4},"passes":"0001000000000100001111111111111111111011111111110111100011"},{"id":"E-018","team":"Cloud Platform","seniority":"Associate","tool":"Claude Code","tenure":1.1,"harness":50,"fullstack":65,"rag":95,"web":60,"blended":63,"band":"Developing","outcome":73,"segment":"Conductor","unedited":0,"minutes":47,"turns":30,"setup":21.7,"mix":{"setup":12,"steer":9,"time":3,"deleg":3,"paste":3},"passes":"1101001111000000111011111011000011111110111111111011011100"},{"id":"E-019","team":"Digital Channels","seniority":"Senior","tool":"Copilot CLI","tenure":4.4,"harness":40,"fullstack":80,"rag":95,"web":65,"blended":63,"band":"Developing","outcome":80,"segment":"Passenger","unedited":0,"minutes":41,"turns":36,"setup":15.7,"mix":{"setup":15,"steer":11,"time":1,"deleg":1,"paste":8},"passes":"1110111100000000001111111111111101111111011111111011001110"},{"id":"E-020","team":"Risk & Compliance Tech","seniority":"Senior","tool":"Codex","tenure":1.3,"harness":0,"fullstack":55,"rag":85,"web":75,"blended":40,"band":"Developing","outcome":72,"segment":"Passenger","unedited":0,"minutes":44,"turns":22,"setup":10.0,"mix":{"setup":9,"steer":2,"time":3,"deleg":4,"paste":4},"passes":"0000000000000000001111110011011011001010111111011001111111"},{"id":"E-021","team":"Data Platform","seniority":"Senior","tool":"Claude Code","tenure":2.2,"harness":60,"fullstack":85,"rag":85,"web":90,"blended":75,"band":"Ready","outcome":87,"segment":"Conductor","unedited":0,"minutes":40,"turns":28,"setup":25.0,"mix":{"setup":15,"steer":8,"time":1,"deleg":1,"paste":3},"passes":"1000111101100110111111101111111101011111111010111111011111"},{"id":"E-022","team":"Risk & Compliance Tech","seniority":"Senior","tool":"Codex","tenure":1.9,"harness":5,"fullstack":80,"rag":100,"web":75,"blended":51,"band":"Developing","outcome":85,"segment":"Passenger","unedited":0,"minutes":48,"turns":24,"setup":16.0,"mix":{"setup":10,"steer":2,"time":4,"deleg":5,"paste":3},"passes":"0000000001000000001111111111111111101011111011111011110111"},{"id":"E-023","team":"Data Platform","seniority":"Senior","tool":"Claude Code","tenure":2.6,"harness":20,"fullstack":50,"rag":100,"web":75,"blended":49,"band":"Developing","outcome":75,"segment":"Passenger","unedited":1,"minutes":46,"turns":19,"setup":19.2,"mix":{"setup":7,"steer":1,"time":4,"deleg":5,"paste":2},"passes":"0000000001000010101011111010001111101010111111111110101111"},{"id":"E-024","team":"Core Banking","seniority":"Associate","tool":"Claude Code","tenure":1.6,"harness":25,"fullstack":65,"rag":65,"web":90,"blended":52,"band":"Developing","outcome":73,"segment":"Passenger","unedited":1,"minutes":49,"turns":15,"setup":26.0,"mix":{"setup":6,"steer":3,"time":2,"deleg":2,"paste":2},"passes":"0000100001000101101110101111101111010111100011111111111111"},{"id":"E-025","team":"Core Banking","seniority":"Associate","tool":"Codex","tenure":2.0,"harness":40,"fullstack":65,"rag":60,"web":60,"blended":53,"band":"Developing","outcome":62,"segment":"At risk","unedited":0,"minutes":42,"turns":20,"setup":30,"mix":{"setup":10,"steer":3,"time":2,"deleg":3,"paste":2},"passes":"1011000010001100011110100111101101011010100011111011011010"},{"id":"E-026","team":"Cloud Platform","seniority":"Senior","tool":"Codex","tenure":3.0,"harness":65,"fullstack":60,"rag":50,"web":70,"blended":62,"band":"Developing","outcome":60,"segment":"Navigator","unedited":0,"minutes":50,"turns":34,"setup":16.2,"mix":{"setup":11,"steer":17,"time":1,"deleg":1,"paste":4},"passes":"1101110111001111001111111011001111001111100011111110001111"},{"id":"E-027","team":"Payments","seniority":"Associate","tool":"Claude Code","tenure":2.4,"harness":80,"fullstack":75,"rag":100,"web":60,"blended":79,"band":"Ready","outcome":78,"segment":"Conductor","unedited":0,"minutes":49,"turns":29,"setup":30,"mix":{"setup":13,"steer":12,"time":0,"deleg":0,"paste":4},"passes":"0111111111110110111110110111111001110111111111110111110100"},{"id":"E-028","team":"Digital Channels","seniority":"Lead / Staff","tool":"Claude Code","tenure":1.5,"harness":25,"fullstack":55,"rag":100,"web":70,"blended":52,"band":"Developing","outcome":75,"segment":"Passenger","unedited":0,"minutes":39,"turns":30,"setup":19.5,"mix":{"setup":17,"steer":8,"time":1,"deleg":1,"paste":3},"passes":"0000101001010001001111010011001101110110111111111111111000"},{"id":"E-029","team":"Risk & Compliance Tech","seniority":"Senior","tool":"Codex","tenure":8.3,"harness":35,"fullstack":55,"rag":65,"web":30,"blended":44,"band":"Developing","outcome":50,"segment":"At risk","unedited":0,"minutes":46,"turns":24,"setup":11.0,"mix":{"setup":7,"steer":7,"time":2,"deleg":3,"paste":5},"passes":"1010100001010000011011110111010100011011111011010110110000"},{"id":"E-030","team":"Cloud Platform","seniority":"Senior","tool":"Copilot CLI","tenure":2.0,"harness":10,"fullstack":70,"rag":100,"web":80,"blended":51,"band":"Developing","outcome":83,"segment":"Passenger","unedited":0,"minutes":50,"turns":28,"setup":12.9,"mix":{"setup":10,"steer":9,"time":2,"deleg":2,"paste":5},"passes":"0000000101000000001111111101111101111010111111111101111110"},{"id":"E-031","team":"Core Banking","seniority":"Associate","tool":"Codex","tenure":1.5,"harness":60,"fullstack":70,"rag":65,"web":55,"blended":63,"band":"Developing","outcome":63,"segment":"Navigator","unedited":0,"minutes":42,"turns":20,"setup":17.2,"mix":{"setup":8,"steer":8,"time":1,"deleg":1,"paste":2},"passes":"1001110111110110101111111011011010011111111010111100011011"},{"id":"E-032","team":"Payments","seniority":"Lead / Staff","tool":"Claude Code","tenure":4.5,"harness":25,"fullstack":55,"rag":25,"web":40,"blended":35,"band":"Foundational","outcome":40,"segment":"At risk","unedited":0,"minutes":41,"turns":17,"setup":12.1,"mix":{"setup":7,"steer":5,"time":1,"deleg":1,"paste":3},"passes":"0100110001000100001101111001011101111101101000000001111010"},{"id":"E-033","team":"Core Banking","seniority":"Senior","tool":"Claude Code","tenure":3.9,"harness":30,"fullstack":80,"rag":100,"web":95,"blended":65,"band":"Developing","outcome":92,"segment":"Passenger","unedited":1,"minutes":41,"turns":30,"setup":25.8,"mix":{"setup":16,"steer":4,"time":3,"deleg":4,"paste":3},"passes":"0000000101000010111111111111111111111010101111111111111101"},{"id":"E-034","team":"Digital Channels","seniority":"Senior","tool":"Claude Code","tenure":4.1,"harness":60,"fullstack":50,"rag":85,"web":70,"blended":63,"band":"Developing","outcome":68,"segment":"Conductor","unedited":0,"minutes":48,"turns":34,"setup":4.5,"mix":{"setup":4,"steer":20,"time":1,"deleg":2,"paste":7},"passes":"1011100110011011101010100011000101011110111011111100111111"},{"id":"E-035","team":"Core Banking","seniority":"Senior","tool":"Claude Code","tenure":3.6,"harness":20,"fullstack":65,"rag":30,"web":55,"blended":39,"band":"Foundational","outcome":50,"segment":"At risk","unedited":1,"minutes":42,"turns":32,"setup":17.8,"mix":{"setup":12,"steer":8,"time":4,"deleg":5,"paste":3},"passes":"0100000011000000001111100111001111111011101000011110000011"},{"id":"E-036","team":"Core Banking","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":2.7,"harness":5,"fullstack":40,"rag":35,"web":30,"blended":23,"band":"Foundational","outcome":35,"segment":"At risk","unedited":1,"minutes":49,"turns":25,"setup":30,"mix":{"setup":14,"steer":2,"time":3,"deleg":3,"paste":3},"passes":"0000000000000000101111001001000110010011011000101100010000"},{"id":"E-037","team":"Core Banking","seniority":"Associate","tool":"Codex","tenure":8.0,"harness":0,"fullstack":35,"rag":90,"web":55,"blended":32,"band":"Foundational","outcome":60,"segment":"At risk","unedited":1,"minutes":42,"turns":21,"setup":23.1,"mix":{"setup":10,"steer":0,"time":4,"deleg":5,"paste":2},"passes":"0000000000000000001111100010001100101001001111011110110010"},{"id":"E-038","team":"Payments","seniority":"Senior","tool":"Claude Code","tenure":2.7,"harness":60,"fullstack":75,"rag":90,"web":55,"blended":68,"band":"Developing","outcome":73,"segment":"Conductor","unedited":0,"minutes":37,"turns":30,"setup":5.8,"mix":{"setup":6,"steer":18,"time":1,"deleg":1,"paste":4},"passes":"1101001111010101011110101111111100011110111011111110110100"},{"id":"E-039","team":"Digital Channels","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":2.6,"harness":55,"fullstack":70,"rag":35,"web":50,"blended":55,"band":"Developing","outcome":52,"segment":"Navigator","unedited":0,"minutes":44,"turns":38,"setup":7.2,"mix":{"setup":7,"steer":20,"time":2,"deleg":2,"paste":7},"passes":"0010001111010110111111100011101111110111111000010010101111"},{"id":"E-040","team":"Data Platform","seniority":"Lead / Staff","tool":"Codex","tenure":14.3,"harness":25,"fullstack":65,"rag":100,"web":90,"blended":58,"band":"Developing","outcome":85,"segment":"Passenger","unedited":0,"minutes":38,"turns":36,"setup":9.8,"mix":{"setup":11,"steer":13,"time":3,"deleg":4,"paste":5},"passes":"1000000101000000101111101111101111101010111111111111111011"},{"id":"E-041","team":"Cloud Platform","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":5.3,"harness":30,"fullstack":75,"rag":45,"web":55,"blended":48,"band":"Developing","outcome":58,"segment":"At risk","unedited":1,"minutes":42,"turns":24,"setup":8.9,"mix":{"setup":6,"steer":10,"time":2,"deleg":3,"paste":3},"passes":"0010101101001000001101111110111111111111101001011010101110"},{"id":"E-042","team":"Core Banking","seniority":"Associate","tool":"Claude Code","tenure":3.4,"harness":5,"fullstack":60,"rag":50,"web":65,"blended":36,"band":"Foundational","outcome":58,"segment":"At risk","unedited":1,"minutes":44,"turns":18,"setup":25.3,"mix":{"setup":8,"steer":1,"time":3,"deleg":4,"paste":2},"passes":"0000000100000000001111101111000101111011100011101101001110"},{"id":"E-043","team":"Payments","seniority":"Associate","tool":"Codex","tenure":2.1,"harness":25,"fullstack":75,"rag":90,"web":70,"blended":56,"band":"Developing","outcome":78,"segment":"Passenger","unedited":1,"minutes":50,"turns":27,"setup":9.7,"mix":{"setup":7,"steer":6,"time":4,"deleg":6,"paste":4},"passes":"0001100001000100011111111111001111111011111111011110111010"},{"id":"E-044","team":"Data Platform","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":4.1,"harness":40,"fullstack":45,"rag":100,"web":100,"blended":60,"band":"Developing","outcome":82,"segment":"Passenger","unedited":1,"minutes":41,"turns":17,"setup":7.3,"mix":{"setup":4,"steer":4,"time":3,"deleg":4,"paste":2},"passes":"1100100001000011000111111010010101100011111111111111111111"},{"id":"E-045","team":"Core Banking","seniority":"Senior","tool":"Claude Code","tenure":2.2,"harness":0,"fullstack":65,"rag":65,"web":60,"blended":37,"band":"Foundational","outcome":63,"segment":"At risk","unedited":1,"minutes":42,"turns":19,"setup":11.8,"mix":{"setup":5,"steer":1,"time":4,"deleg":5,"paste":4},"passes":"0000000000000000001111111111001001111011111001010111111100"},{"id":"E-046","team":"Payments","seniority":"Senior","tool":"Claude Code","tenure":4.4,"harness":0,"fullstack":35,"rag":80,"web":10,"blended":24,"band":"Foundational","outcome":42,"segment":"At risk","unedited":1,"minutes":50,"turns":30,"setup":8.3,"mix":{"setup":7,"steer":2,"time":7,"deleg":9,"paste":5},"passes":"0000000000000000000001100011000000011010101110010000001000"},{"id":"E-047","team":"Digital Channels","seniority":"Associate","tool":"Codex","tenure":0.9,"harness":20,"fullstack":50,"rag":80,"web":35,"blended":40,"band":"Developing","outcome":55,"segment":"At risk","unedited":1,"minutes":45,"turns":31,"setup":16.7,"mix":{"setup":12,"steer":6,"time":4,"deleg":5,"paste":4},"passes":"0000100101000010000010100011101001010110111010110110001100"},{"id":"E-048","team":"Core Banking","seniority":"Senior","tool":"Claude Code","tenure":2.9,"harness":50,"fullstack":65,"rag":55,"web":90,"blended":61,"band":"Developing","outcome":70,"segment":"Conductor","unedited":1,"minutes":39,"turns":26,"setup":10.7,"mix":{"setup":8,"steer":9,"time":2,"deleg":3,"paste":4},"passes":"0001111110010110101111101111000011111011111001011110111111"},{"id":"E-049","team":"Payments","seniority":"Associate","tool":"Claude Code","tenure":1.1,"harness":10,"fullstack":60,"rag":65,"web":90,"blended":45,"band":"Developing","outcome":72,"segment":"Passenger","unedited":0,"minutes":47,"turns":22,"setup":24.2,"mix":{"setup":12,"steer":3,"time":2,"deleg":2,"paste":3},"passes":"0000010001000000001111101011101111010011111010001111111110"},{"id":"E-050","team":"Data Platform","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":2.4,"harness":10,"fullstack":70,"rag":100,"web":80,"blended":51,"band":"Developing","outcome":83,"segment":"Passenger","unedited":1,"minutes":46,"turns":23,"setup":28.8,"mix":{"setup":13,"steer":2,"time":2,"deleg":3,"paste":3},"passes":"0000001000000000101111111101111011111011111111111111111100"},{"id":"E-051","team":"Digital Channels","seniority":"Senior","tool":"Claude Code","tenure":3.4,"harness":75,"fullstack":75,"rag":90,"web":80,"blended":78,"band":"Ready","outcome":82,"segment":"Conductor","unedited":0,"minutes":44,"turns":35,"setup":19.7,"mix":{"setup":15,"steer":12,"time":2,"deleg":3,"paste":3},"passes":"1011011111101110111111110011001101111111011111101111010111"},{"id":"E-052","team":"Risk & Compliance Tech","seniority":"Senior","tool":"Copilot CLI","tenure":2.5,"harness":10,"fullstack":60,"rag":95,"web":75,"blended":47,"band":"Developing","outcome":77,"segment":"Passenger","unedited":0,"minutes":50,"turns":13,"setup":9.6,"mix":{"setup":4,"steer":1,"time":2,"deleg":3,"paste":3},"passes":"0000000100000000101011111101111111000011011111111011110111"},{"id":"E-053","team":"Core Banking","seniority":"Associate","tool":"Codex","tenure":2.2,"harness":65,"fullstack":80,"rag":70,"web":75,"blended":71,"band":"Developing","outcome":75,"segment":"Conductor","unedited":1,"minutes":32,"turns":21,"setup":19.8,"mix":{"setup":9,"steer":6,"time":2,"deleg":2,"paste":2},"passes":"1011101111010010111001111111111101111111011101001011101110"},{"id":"E-054","team":"Digital Channels","seniority":"Senior","tool":"Codex","tenure":5.5,"harness":35,"fullstack":65,"rag":100,"web":75,"blended":60,"band":"Developing","outcome":80,"segment":"Passenger","unedited":1,"minutes":43,"turns":31,"setup":30,"mix":{"setup":15,"steer":9,"time":2,"deleg":2,"paste":3},"passes":"1001101111000000001010110111101111011110111111111111010011"},{"id":"E-055","team":"Data Platform","seniority":"Associate","tool":"Copilot CLI","tenure":4.5,"harness":20,"fullstack":55,"rag":90,"web":95,"blended":52,"band":"Developing","outcome":80,"segment":"Passenger","unedited":1,"minutes":46,"turns":16,"setup":17.6,"mix":{"setup":6,"steer":2,"time":3,"deleg":4,"paste":1},"passes":"0010100001000000001111100101001010101011111111101111111111"},{"id":"E-056","team":"Data Platform","seniority":"Lead / Staff","tool":"Claude Code","tenure":1.4,"harness":5,"fullstack":55,"rag":100,"web":85,"blended":46,"band":"Developing","outcome":80,"segment":"Passenger","unedited":1,"minutes":38,"turns":31,"setup":7.2,"mix":{"setup":6,"steer":5,"time":4,"deleg":6,"paste":10},"passes":"0000000001000000000111110011001111101001101101111111111110"},{"id":"E-057","team":"Data Platform","seniority":"Associate","tool":"Codex","tenure":1.7,"harness":5,"fullstack":25,"rag":5,"web":50,"blended":17,"band":"Foundational","outcome":27,"segment":"At risk","unedited":0,"minutes":40,"turns":9,"setup":5.5,"mix":{"setup":2,"steer":1,"time":2,"deleg":2,"paste":2},"passes":"0000001000000000001101100011000000001000100001000011100110"},{"id":"E-058","team":"Payments","seniority":"Senior","tool":"Claude Code","tenure":3.3,"harness":40,"fullstack":80,"rag":95,"web":70,"blended":64,"band":"Developing","outcome":82,"segment":"Passenger","unedited":0,"minutes":48,"turns":23,"setup":23.3,"mix":{"setup":12,"steer":6,"time":1,"deleg":1,"paste":3},"passes":"1011100000001110001111100011101111011111111111111111010110"},{"id":"E-059","team":"Risk & Compliance Tech","seniority":"Senior","tool":"Codex","tenure":7.0,"harness":20,"fullstack":55,"rag":40,"web":45,"blended":36,"band":"Foundational","outcome":47,"segment":"At risk","unedited":1,"minutes":46,"turns":29,"setup":24.7,"mix":{"setup":12,"steer":5,"time":4,"deleg":5,"paste":3},"passes":"0000011001000000011110111011101111110100101001010001101111"},{"id":"E-060","team":"Cloud Platform","seniority":"Lead / Staff","tool":"Claude Code","tenure":2.6,"harness":45,"fullstack":85,"rag":100,"web":85,"blended":71,"band":"Developing","outcome":90,"segment":"Passenger","unedited":0,"minutes":50,"turns":38,"setup":7.1,"mix":{"setup":7,"steer":17,"time":2,"deleg":3,"paste":9},"passes":"0000111101010010111111111111101111111111111101111101111111"},{"id":"E-061","team":"Data Platform","seniority":"Senior","tool":"Codex","tenure":7.7,"harness":0,"fullstack":45,"rag":35,"web":70,"blended":28,"band":"Foundational","outcome":50,"segment":"At risk","unedited":0,"minutes":38,"turns":25,"setup":7.3,"mix":{"setup":7,"steer":2,"time":4,"deleg":6,"paste":6},"passes":"0000000000000000001111100001101110001011001000011110110110"},{"id":"E-062","team":"Data Platform","seniority":"Senior","tool":"Copilot CLI","tenure":2.2,"harness":30,"fullstack":70,"rag":85,"web":90,"blended":59,"band":"Developing","outcome":82,"segment":"Passenger","unedited":1,"minutes":46,"turns":24,"setup":7.3,"mix":{"setup":5,"steer":6,"time":4,"deleg":6,"paste":3},"passes":"1000100001000011001111111011111111001010110111111111101111"},{"id":"E-063","team":"Payments","seniority":"Associate","tool":"Copilot CLI","tenure":1.4,"harness":5,"fullstack":50,"rag":70,"web":65,"blended":37,"band":"Foundational","outcome":62,"segment":"At risk","unedited":0,"minutes":40,"turns":22,"setup":8.3,"mix":{"setup":8,"steer":4,"time":3,"deleg":3,"paste":4},"passes":"0000000001000000001111111101110110001001100110111110111010"},{"id":"E-064","team":"Digital Channels","seniority":"Senior","tool":"Claude Code","tenure":2.2,"harness":0,"fullstack":65,"rag":100,"web":70,"blended":44,"band":"Developing","outcome":78,"segment":"Passenger","unedited":1,"minutes":32,"turns":22,"setup":7.9,"mix":{"setup":5,"steer":3,"time":5,"deleg":6,"paste":3},"passes":"0000000000000000000111100011000111111011111111111111111100"},{"id":"E-065","team":"Risk & Compliance Tech","seniority":"Senior","tool":"Claude Code","tenure":5.1,"harness":65,"fullstack":75,"rag":95,"web":70,"blended":73,"band":"Developing","outcome":80,"segment":"Conductor","unedited":0,"minutes":48,"turns":27,"setup":13.9,"mix":{"setup":9,"steer":13,"time":1,"deleg":1,"paste":3},"passes":"1010111101010101111111111011111110111111111011101111011010"},{"id":"E-066","team":"Core Banking","seniority":"Senior","tool":"Copilot CLI","tenure":1.9,"harness":5,"fullstack":70,"rag":100,"web":75,"blended":48,"band":"Developing","outcome":82,"segment":"Passenger","unedited":1,"minutes":39,"turns":11,"setup":7.3,"mix":{"setup":3,"steer":2,"time":2,"deleg":2,"paste":2},"passes":"0000000100000000001111111100001010111111111111111111011010"},{"id":"E-067","team":"Core Banking","seniority":"Senior","tool":"Codex","tenure":1.0,"harness":80,"fullstack":75,"rag":90,"web":50,"blended":76,"band":"Ready","outcome":72,"segment":"Conductor","unedited":0,"minutes":41,"turns":45,"setup":26.0,"mix":{"setup":18,"steer":15,"time":1,"deleg":1,"paste":10},"passes":"1111111001010111111101110011111111111111011101110110111100"},{"id":"E-068","team":"Digital Channels","seniority":"Lead / Staff","tool":"Codex","tenure":10.5,"harness":40,"fullstack":70,"rag":90,"web":50,"blended":57,"band":"Developing","outcome":70,"segment":"Passenger","unedited":1,"minutes":50,"turns":34,"setup":6.1,"mix":{"setup":5,"steer":20,"time":2,"deleg":2,"paste":5},"passes":"0101100111000010011100101011101111011011111111111110010110"},{"id":"E-069","team":"Payments","seniority":"Senior","tool":"Claude Code","tenure":4.1,"harness":40,"fullstack":95,"rag":90,"web":45,"blended":63,"band":"Developing","outcome":77,"segment":"Passenger","unedited":0,"minutes":43,"turns":27,"setup":16.9,"mix":{"setup":13,"steer":7,"time":2,"deleg":2,"paste":3},"passes":"1101000001010110001111111111111111111111111111011011010000"},{"id":"E-070","team":"Risk & Compliance Tech","seniority":"Senior","tool":"Codex","tenure":3.6,"harness":80,"fullstack":80,"rag":100,"web":55,"blended":79,"band":"Ready","outcome":78,"segment":"Conductor","unedited":0,"minutes":46,"turns":37,"setup":20.9,"mix":{"setup":15,"steer":17,"time":0,"deleg":0,"paste":5},"passes":"1110111101011011111111111111011111110101111011111111010000"},{"id":"E-071","team":"Cloud Platform","seniority":"Lead / Staff","tool":"Claude Code","tenure":7.1,"harness":35,"fullstack":75,"rag":30,"web":55,"blended":48,"band":"Developing","outcome":53,"segment":"At risk","unedited":0,"minutes":39,"turns":34,"setup":7.9,"mix":{"setup":8,"steer":13,"time":3,"deleg":5,"paste":5},"passes":"0101110001001000011111110111110101111111111000010011110011"},{"id":"E-072","team":"Cloud Platform","seniority":"Senior","tool":"Codex","tenure":2.6,"harness":60,"fullstack":90,"rag":95,"web":70,"blended":75,"band":"Ready","outcome":85,"segment":"Conductor","unedited":0,"minutes":43,"turns":23,"setup":11.7,"mix":{"setup":6,"steer":12,"time":1,"deleg":1,"paste":3},"passes":"1011101001010011011111101111111111111111111111110111111100"},{"id":"E-073","team":"Core Banking","seniority":"Associate","tool":"Claude Code","tenure":2.1,"harness":10,"fullstack":70,"rag":20,"web":5,"blended":26,"band":"Foundational","outcome":32,"segment":"At risk","unedited":1,"minutes":50,"turns":20,"setup":30,"mix":{"setup":10,"steer":3,"time":2,"deleg":3,"paste":2},"passes":"0000000000010100001111110011111110110011110001010100000000"},{"id":"E-074","team":"Risk & Compliance Tech","seniority":"Senior","tool":"Copilot CLI","tenure":2.8,"harness":5,"fullstack":55,"rag":80,"web":85,"blended":43,"band":"Developing","outcome":73,"segment":"Passenger","unedited":0,"minutes":46,"turns":20,"setup":9.1,"mix":{"setup":7,"steer":5,"time":1,"deleg":2,"paste":5},"passes":"0000100000000000001111101011011010111000111011101111011111"},{"id":"E-075","team":"Digital Channels","seniority":"Senior","tool":"Claude Code","tenure":2.0,"harness":50,"fullstack":95,"rag":100,"web":75,"blended":74,"band":"Developing","outcome":90,"segment":"Conductor","unedited":0,"minutes":43,"turns":37,"setup":11.5,"mix":{"setup":12,"steer":18,"time":1,"deleg":1,"paste":5},"passes":"1100001001000110111111111111111111111111111111111111011100"},{"id":"E-076","team":"Core Banking","seniority":"Senior","tool":"Copilot CLI","tenure":2.7,"harness":0,"fullstack":65,"rag":5,"web":35,"blended":23,"band":"Foundational","outcome":35,"segment":"At risk","unedited":1,"minutes":45,"turns":9,"setup":12.0,"mix":{"setup":3,"steer":0,"time":2,"deleg":3,"paste":1},"passes":"0000000000000000000111111110011111101011010000010000101111"},{"id":"E-077","team":"Payments","seniority":"Senior","tool":"Copilot CLI","tenure":2.8,"harness":85,"fullstack":95,"rag":100,"web":75,"blended":88,"band":"Ready","outcome":90,"segment":"Conductor","unedited":0,"minutes":49,"turns":39,"setup":13.9,"mix":{"setup":10,"steer":21,"time":2,"deleg":2,"paste":4},"passes":"1101111111101111111111111111111111111111111111111001111111"},{"id":"E-078","team":"Payments","seniority":"Senior","tool":"Copilot CLI","tenure":2.3,"harness":0,"fullstack":50,"rag":70,"web":80,"blended":37,"band":"Foundational","outcome":67,"segment":"Passenger","unedited":0,"minutes":42,"turns":23,"setup":8.1,"mix":{"setup":7,"steer":2,"time":4,"deleg":6,"paste":4},"passes":"0000000000000000001111001110000111010001111010111110111101"},{"id":"E-079","team":"Cloud Platform","seniority":"Lead / Staff","tool":"Claude Code","tenure":2.7,"harness":55,"fullstack":90,"rag":65,"web":35,"blended":62,"band":"Developing","outcome":63,"segment":"Navigator","unedited":0,"minutes":41,"turns":35,"setup":8.6,"mix":{"setup":9,"steer":19,"time":1,"deleg":2,"paste":4},"passes":"0111101110010011001110111111111111111111110111100011110000"},{"id":"E-080","team":"Core Banking","seniority":"Associate","tool":"Codex","tenure":2.0,"harness":20,"fullstack":50,"rag":55,"web":55,"blended":39,"band":"Foundational","outcome":53,"segment":"At risk","unedited":0,"minutes":49,"turns":21,"setup":30,"mix":{"setup":11,"steer":2,"time":3,"deleg":3,"paste":2},"passes":"1000100001000000001010110111001100011011011001011000111101"},{"id":"E-081","team":"Digital Channels","seniority":"Senior","tool":"Claude Code","tenure":2.1,"harness":5,"fullstack":45,"rag":90,"web":80,"blended":41,"band":"Developing","outcome":72,"segment":"Passenger","unedited":1,"minutes":35,"turns":22,"setup":3.7,"mix":{"setup":3,"steer":3,"time":5,"deleg":6,"paste":5},"passes":"0000000001000000000011100111111001010001101110111111111010"},{"id":"E-082","team":"Cloud Platform","seniority":"Senior","tool":"Codex","tenure":2.6,"harness":10,"fullstack":50,"rag":15,"web":40,"blended":26,"band":"Foundational","outcome":35,"segment":"At risk","unedited":1,"minutes":45,"turns":18,"setup":12.4,"mix":{"setup":7,"steer":1,"time":3,"deleg":4,"paste":3},"passes":"0000000101000000001101101111101101100001110000010000101111"},{"id":"E-083","team":"Payments","seniority":"Associate","tool":"Claude Code","tenure":2.5,"harness":25,"fullstack":70,"rag":60,"web":80,"blended":51,"band":"Developing","outcome":70,"segment":"Passenger","unedited":1,"minutes":48,"turns":31,"setup":26.0,"mix":{"setup":16,"steer":5,"time":3,"deleg":4,"paste":3},"passes":"1001000011000100001111110111111101110011111001011111110110"},{"id":"E-084","team":"Risk & Compliance Tech","seniority":"Associate","tool":"Codex","tenure":1.3,"harness":50,"fullstack":75,"rag":85,"web":45,"blended":61,"band":"Developing","outcome":68,"segment":"Conductor","unedited":0,"minutes":49,"turns":28,"setup":7.9,"mix":{"setup":5,"steer":11,"time":3,"deleg":5,"paste":4},"passes":"1010101111000101001011111111001111111111111111011000110101"},{"id":"E-085","team":"Data Platform","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":3.1,"harness":50,"fullstack":70,"rag":100,"web":75,"blended":67,"band":"Developing","outcome":82,"segment":"Conductor","unedited":0,"minutes":42,"turns":28,"setup":7.5,"mix":{"setup":7,"steer":13,"time":2,"deleg":2,"paste":4},"passes":"1011100001111010001111111110111111011010111101111111111010"},{"id":"E-086","team":"Digital Channels","seniority":"Senior","tool":"Codex","tenure":5.6,"harness":30,"fullstack":75,"rag":30,"web":25,"blended":41,"band":"Developing","outcome":43,"segment":"At risk","unedited":0,"minutes":42,"turns":34,"setup":7.6,"mix":{"setup":9,"steer":11,"time":3,"deleg":5,"paste":6},"passes":"1000110100001010001011111111101111111011101000010010000110"},{"id":"E-087","team":"Payments","seniority":"Senior","tool":"Claude Code","tenure":5.0,"harness":60,"fullstack":55,"rag":80,"web":45,"blended":60,"band":"Developing","outcome":60,"segment":"Navigator","unedited":0,"minutes":41,"turns":34,"setup":9.6,"mix":{"setup":8,"steer":15,"time":3,"deleg":3,"paste":5},"passes":"0010001111111111001111000111001000011111111101111001101010"},{"id":"E-088","team":"Risk & Compliance Tech","seniority":"Associate","tool":"Claude Code","tenure":7.8,"harness":40,"fullstack":80,"rag":70,"web":75,"blended":61,"band":"Developing","outcome":75,"segment":"Passenger","unedited":0,"minutes":42,"turns":25,"setup":9.2,"mix":{"setup":7,"steer":9,"time":2,"deleg":3,"paste":4},"passes":"0011000101010110001111111111011111011111110111011110101011"},{"id":"E-089","team":"Payments","seniority":"Lead / Staff","tool":"Claude Code","tenure":18,"harness":0,"fullstack":60,"rag":100,"web":65,"blended":42,"band":"Developing","outcome":75,"segment":"Passenger","unedited":1,"minutes":48,"turns":22,"setup":5.3,"mix":{"setup":4,"steer":1,"time":6,"deleg":8,"paste":3},"passes":"0000000000000000001111110110111111010011101111111101110110"},{"id":"E-090","team":"Payments","seniority":"Associate","tool":"Codex","tenure":1.6,"harness":20,"fullstack":60,"rag":20,"web":60,"blended":37,"band":"Foundational","outcome":47,"segment":"At risk","unedited":0,"minutes":38,"turns":19,"setup":10.6,"mix":{"setup":7,"steer":5,"time":2,"deleg":2,"paste":3},"passes":"0000110101000000001111101011011100111101010001011000111111"},{"id":"E-091","team":"Digital Channels","seniority":"Associate","tool":"Copilot CLI","tenure":4.3,"harness":50,"fullstack":70,"rag":80,"web":40,"blended":58,"band":"Developing","outcome":63,"segment":"Navigator","unedited":0,"minutes":39,"turns":34,"setup":26.6,"mix":{"setup":15,"steer":10,"time":2,"deleg":2,"paste":5},"passes":"0010101111000011101111110011101011011111100111011000110110"},{"id":"E-092","team":"Cloud Platform","seniority":"Lead / Staff","tool":"Claude Code","tenure":5.6,"harness":80,"fullstack":90,"rag":95,"web":85,"blended":86,"band":"Ready","outcome":90,"segment":"Conductor","unedited":0,"minutes":43,"turns":29,"setup":9.3,"mix":{"setup":7,"steer":16,"time":1,"deleg":0,"paste":5},"passes":"1011111101011111110111111111111111111111111111111111111110"},{"id":"E-093","team":"Data Platform","seniority":"Associate","tool":"Copilot CLI","tenure":2.5,"harness":20,"fullstack":55,"rag":95,"web":75,"blended":50,"band":"Developing","outcome":75,"segment":"Passenger","unedited":1,"minutes":50,"turns":35,"setup":18.7,"mix":{"setup":13,"steer":7,"time":4,"deleg":5,"paste":6},"passes":"0000100101000000101001111111001111001011111111111011111101"},{"id":"E-094","team":"Core Banking","seniority":"Lead / Staff","tool":"Codex","tenure":1.6,"harness":55,"fullstack":85,"rag":90,"web":70,"blended":71,"band":"Developing","outcome":82,"segment":"Conductor","unedited":0,"minutes":46,"turns":30,"setup":29.0,"mix":{"setup":16,"steer":10,"time":1,"deleg":1,"paste":2},"passes":"1101111001001011001111111111011111111111111111011111011010"},{"id":"E-095","team":"Payments","seniority":"Lead / Staff","tool":"Copilot CLI","tenure":1.2,"harness":15,"fullstack":80,"rag":100,"web":55,"blended":52,"band":"Developing","outcome":78,"segment":"Passenger","unedited":1,"minutes":47,"turns":23,"setup":16.8,"mix":{"setup":10,"steer":5,"time":2,"deleg":3,"paste":3},"passes":"1000000000000000011111110111111111111100111111111101111000"},{"id":"E-096","team":"Payments","seniority":"Senior","tool":"Claude Code","tenure":3.8,"harness":75,"fullstack":75,"rag":90,"web":70,"blended":77,"band":"Ready","outcome":78,"segment":"Conductor","unedited":0,"minutes":42,"turns":37,"setup":12.3,"mix":{"setup":11,"steer":18,"time":1,"deleg":1,"paste":6},"passes":"1100111111110110111101111111100101111110111011111111110100"},{"id":"E-097","team":"Payments","seniority":"Associate","tool":"Claude Code","tenure":1.2,"harness":20,"fullstack":40,"rag":95,"web":65,"blended":44,"band":"Developing","outcome":67,"segment":"Passenger","unedited":0,"minutes":41,"turns":24,"setup":21.4,"mix":{"setup":13,"steer":3,"time":2,"deleg":3,"paste":3},"passes":"1000001000010000001111110101101100000110111111111011111001"},{"id":"E-098","team":"Digital Channels","seniority":"Senior","tool":"Copilot CLI","tenure":1.8,"harness":15,"fullstack":65,"rag":100,"web":100,"blended":55,"band":"Developing","outcome":88,"segment":"Passenger","unedited":0,"minutes":37,"turns":16,"setup":6.1,"mix":{"setup":3,"steer":4,"time":3,"deleg":4,"paste":2},"passes":"0000001011000000000101111011001110111011111111111111111111"},{"id":"E-099","team":"Data Platform","seniority":"Associate","tool":"Codex","tenure":3.8,"harness":70,"fullstack":90,"rag":65,"web":70,"blended":74,"band":"Developing","outcome":75,"segment":"Conductor","unedited":0,"minutes":42,"turns":39,"setup":12.3,"mix":{"setup":10,"steer":18,"time":3,"deleg":3,"paste":5},"passes":"1111111111100010011111101111111111111111111001111110110110"},{"id":"E-100","team":"Cloud Platform","seniority":"Senior","tool":"Claude Code","tenure":2.5,"harness":10,"fullstack":55,"rag":90,"web":50,"blended":41,"band":"Developing","outcome":65,"segment":"Passenger","unedited":1,"minutes":46,"turns":19,"setup":2.7,"mix":{"setup":2,"steer":4,"time":4,"deleg":5,"paste":4},"passes":"0000000000000001101111010010001110010110111111011100001011"}]};
+var E = DATA.engineers, A = DATA.agg, NUM = DATA.num, ITEMS = DATA.items, CUTS = DATA.cuts;
+
+var C = {
+  process: '#1F3A3D', output: '#5FA8B0', ink: '#10292C', sub: '#5F6D68', line: '#E7E9EA', faint: '#F5F5F5',
+  emerald: '#338632', loss: '#B4531F'
+};
+var SEGS = [
+  { k: 'Conductor', label: 'Conductors', c: '#338632' },
+  { k: 'Passenger', label: 'Passengers', c: '#2368B0' },
+  { k: 'Navigator', label: 'Navigators', c: '#B88512' },
+  { k: 'At risk',   label: 'At risk',    c: '#A6461A' }
+];
+var SEGC = {}; SEGS.forEach(function (s) { SEGC[s.k] = s.c; });
+var TEAMS = A.byTeam.map(function (t) { return t.name; });
+var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function $(s, r) { return (r || document).querySelector(s); }
+function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function fmt(v) { return (Math.round(v * 10) / 10).toString(); }
+function median(xs) { var s = xs.slice().sort(function (a, b) { return a - b; }); var m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return ((h >>> 0) % 1000) / 1000; }
+function width(el) { return Math.max(300, el.clientWidth); }
+function svg(w, h, inner, label) { return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + esc(label) + '">' + inner + '</svg>'; }
+function t(x, y, s, o) {
+  o = o || {};
+  return '<text x="' + x + '" y="' + y + '" font-size="' + (o.size || 12) + '" fill="' + (o.fill || C.sub) + '"' +
+    (o.anchor ? ' text-anchor="' + o.anchor + '"' : '') + (o.weight ? ' font-weight="' + o.weight + '"' : '') +
+    (o.base ? ' dominant-baseline="' + o.base + '"' : '') + '>' + esc(s) + '</text>';
+}
+/* Horizontal bar anchored at the baseline: square start, 4px rounded data end. */
+function hbar(x, y, w, h, fill, attrs) {
+  if (w <= 0) return '';
+  var r = Math.min(4, w, h / 2);
+  return '<path d="M' + x + ',' + y + 'H' + (x + w - r) + 'Q' + (x + w) + ',' + y + ' ' + (x + w) + ',' + (y + r) +
+    'V' + (y + h - r) + 'Q' + (x + w) + ',' + (y + h) + ' ' + (x + w - r) + ',' + (y + h) + 'H' + x + 'Z" fill="' + fill + '"' + (attrs || '') + '/>';
+}
+function vbar(x, y0, w, h, fill, attrs) {
+  if (h <= 0) return '';
+  var r = Math.min(4, h, w / 2), y = y0 - h;
+  return '<path d="M' + x + ',' + y0 + 'V' + (y + r) + 'Q' + x + ',' + y + ' ' + (x + r) + ',' + y + 'H' + (x + w - r) +
+    'Q' + (x + w) + ',' + y + ' ' + (x + w) + ',' + (y + r) + 'V' + y0 + 'Z" fill="' + fill + '"' + (attrs || '') + '/>';
+}
+
+/* ------------------------------------------------ hydrate / fade / tooltip */
+function hydrate() {
+  $$('[data-n]').forEach(function (el) {
+    var k = el.getAttribute('data-n');
+    el.textContent = Object.prototype.hasOwnProperty.call(NUM, k) ? NUM[k] : '?' + k + '?';
+  });
+}
+function initFade() {
+  var els = $$('.fade');
+  if (REDUCED || !('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function (en) {
+    en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(function (e) { io.observe(e); });
+}
+var TIP;
+function tipShow(html, x, y) {
+  TIP = TIP || $('#gtip');
+  TIP.innerHTML = html; TIP.classList.add('show');
+  var r = TIP.getBoundingClientRect();
+  var left = Math.min(Math.max(8, x - r.width / 2), window.innerWidth - r.width - 8);
+  var top = y - r.height - 14; if (top < 8) top = y + 20;
+  TIP.style.left = left + 'px'; TIP.style.top = top + 'px';
+}
+function tipHide() { if (TIP) TIP.classList.remove('show'); }
+/* Any element with data-tip gets a hover/focus tooltip. */
+function bindTips(root) {
+  $$('[data-tip]', root).forEach(function (el) {
+    el.addEventListener('mousemove', function (ev) { tipShow(el.getAttribute('data-tip'), ev.clientX, ev.clientY); });
+    el.addEventListener('mouseleave', tipHide);
+    el.addEventListener('focus', function () { var r = el.getBoundingClientRect(); tipShow(el.getAttribute('data-tip'), r.left + r.width / 2, r.top); });
+    el.addEventListener('blur', tipHide);
+  });
+}
+function engTip(e) {
+  return esc('<div class="t">' + e.id + ' · ' + e.segment + '</div>' + e.team + ' · ' + e.seniority + ' · ' + e.tool +
+    '<br>Direction <b>' + e.harness + '</b> · Output <b>' + e.outcome + '</b> · Blended <b>' + e.blended + '</b>' +
+    '<br>Fullstack ' + e.fullstack + ' · RAG ' + e.rag + ' · Web ' + e.web);
+}
+
+/* ================================================================ scenario weight pie */
+var SCEN = [
+  { k: 'harness', name: 'Harness Behaviors', kind: 'Direction', w: DATA.weights.harness, c: '#1F3A3D', fg: '#fff',
+    desc: 'Graders replay the engineer\u2019s own agent session log. Did they orient the agent, steer its plan, run work in parallel, and verify what it claimed?',
+    what: 'Scored from the session log of the build task' },
+  { k: 'fullstack', name: 'Agentic Fullstack', kind: 'Output', w: DATA.weights.fullstack, c: '#3E8C95', fg: '#fff',
+    desc: 'Ship two features into an unfamiliar production codebase in 50 minutes: a discount-approval gate and an audit trail.',
+    what: 'Code quality, tests, workflow, audit, collaboration' },
+  { k: 'rag', name: 'LLM / RAG Systems', kind: 'Output', w: DATA.weights.rag, c: '#5FA8B0', fg: '#10292C',
+    desc: 'A RAG pipeline started producing wrong safety summaries after a customer rollout. Write a 20-minute pre-read ranking the likely root causes.',
+    what: 'Root-cause depth and prioritization' },
+  { k: 'web', name: 'Web Architecture', kind: 'Output', w: DATA.weights.web, c: '#9CCBD0', fg: '#10292C',
+    desc: 'Debug a user-creation failure in 25 minutes, then explain it to customer support with a workaround and next steps.',
+    what: 'Diagnosis, documentation, communication' }
+];
+var WT_SEL = 'harness';
+function renderWeights() {
+  var host = $('#weightpie'), S = Math.min(300, Math.max(240, width(host))), cx = S / 2, cy = S / 2, R = S / 2 - 14, a0 = -Math.PI / 2, o = '';
+  SCEN.forEach(function (sc) {
+    var a1 = a0 + sc.w * 2 * Math.PI, mid = (a0 + a1) / 2, sel = sc.k === WT_SEL;
+    var dx = sel ? Math.cos(mid) * 9 : 0, dy = sel ? Math.sin(mid) * 9 : 0;
+    var p = function (a) { return (cx + R * Math.cos(a)).toFixed(2) + ',' + (cy + R * Math.sin(a)).toFixed(2); };
+    var large = (a1 - a0) > Math.PI ? 1 : 0;
+    o += '<g transform="translate(' + dx.toFixed(1) + ',' + dy.toFixed(1) + ')">';
+    o += '<path d="M' + cx + ',' + cy + 'L' + p(a0) + 'A' + R + ',' + R + ' 0 ' + large + ' 1 ' + p(a1) + 'Z" fill="' + sc.c + '" stroke="#fff" stroke-width="2" ' +
+      'tabindex="0" role="button" aria-pressed="' + sel + '" aria-label="' + esc(sc.name + ', ' + Math.round(sc.w * 100) + '% of blended score') + '" data-k="' + sc.k + '"' +
+'/>';
+    var lr = R * 0.62, lx = cx + lr * Math.cos(mid), ly = cy + lr * Math.sin(mid);
+    o += '<text x="' + lx.toFixed(1) + '" y="' + (ly - 4).toFixed(1) + '" text-anchor="middle" font-size="19" font-weight="700" fill="' + sc.fg + '" pointer-events="none">' + Math.round(sc.w * 100) + '%</text>';
+    o += '<text x="' + lx.toFixed(1) + '" y="' + (ly + 13).toFixed(1) + '" text-anchor="middle" font-size="11" font-weight="600" fill="' + sc.fg + '" pointer-events="none">' + esc(sc.kind) + '</text>';
+    o += '</g>';
+    a0 = a1;
+  });
+  host.innerHTML = svg(S, S, o, 'Pie chart of scenario weights in the blended score');
+  $$('path[data-k]', host).forEach(function (el) {
+    var go = function (kb) { WT_SEL = el.getAttribute('data-k'); renderWeights(); if (kb) { var f = $('#weightpie path[data-k="' + WT_SEL + '"]'); if (f) f.focus({ preventScroll: true }); } };
+    el.addEventListener('click', function () { go(false); });
+    el.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); go(true); } });
+  });
+  $('#wt-pick').innerHTML = SCEN.map(function (sc) { return '<button type="button" data-k="' + sc.k + '" aria-pressed="' + (sc.k === WT_SEL) + '">' + esc(sc.name) + '</button>'; }).join('');
+  $$('#wt-pick button').forEach(function (b) { b.addEventListener('click', function () { WT_SEL = b.getAttribute('data-k'); renderWeights(); }); });
+  var sc = SCEN.filter(function (x) { return x.k === WT_SEL; })[0];
+  var panel = $('#wtpanel');
+  panel.style.setProperty('--wc', sc.c);
+  panel.innerHTML = '<span class="kicker"><i></i>' + esc(sc.kind) + ' · ' + Math.round(sc.w * 100) + '% of blended</span>' +
+    '<h4>' + esc(sc.name) + '</h4><p>' + esc(sc.desc) + '</p>' +
+    '<div class="wmeta"><div><b>' + fmt(A[sc.k].median) + '</b>cohort median</div><div><b>' + Math.round(A[sc.k].q1) + '–' + Math.round(A[sc.k].q3) + '</b>middle half of engineers</div><div><b style="font-family:var(--sans);font-size:14px;font-weight:600;padding-top:8px">' + esc(sc.what) + '</b>what graders check</div></div>';
+}
+
+/* ================================================================ FIG 1 strips */
+function renderStrips() {
+  var host = $('#strips'), W = width(host);
+  var rows = [
+    { k: 'harness', name: 'Harness Behaviors', kind: 'Direction', c: C.process },
+    { k: 'fullstack', name: 'Agentic Fullstack', kind: 'Output', c: C.output },
+    { k: 'rag', name: 'LLM / RAG Systems', kind: 'Output', c: C.output },
+    { k: 'web', name: 'Web Architecture', kind: 'Output', c: C.output }
+  ];
+  var narrow = W < 640, LW = narrow ? 0 : 170, R = 14, plotW = W - LW - R;
+  var binW = plotW / 21, pitch = 7, rad = 2.8, cols = Math.max(1, Math.floor((binW - 2) / pitch));
+  var x = function (v) { return LW + (v / 5 + 0.5) * binW; };
+  var out = '', y = 0;
+  rows.forEach(function (row) {
+    var bins = {}; E.forEach(function (e) { (bins[e[row.k]] = bins[e[row.k]] || []).push(e); });
+    var maxStack = 0; Object.keys(bins).forEach(function (b) { maxStack = Math.max(maxStack, Math.ceil(bins[b].length / cols)); });
+    var top = y + (narrow ? 22 : 8), h = maxStack * pitch + 6, base = top + h;
+    if (narrow) out += t(0, y + 13, row.name + ' · ' + row.kind, { fill: C.ink, weight: 600, size: 12.5 });
+    else {
+      out += t(0, base - h / 2 - 2, row.name, { fill: C.ink, weight: 600, size: 13.5 });
+      out += t(0, base - h / 2 + 14, row.kind, { size: 11.5 });
+    }
+    out += '<line x1="' + LW + '" x2="' + (W - R) + '" y1="' + (base + 1) + '" y2="' + (base + 1) + '" stroke="' + C.line + '"/>';
+    Object.keys(bins).forEach(function (b) {
+      var list = bins[b].sort(function (p, q) { return p.id < q.id ? -1 : 1; });
+      var cx0 = x(+b) - (cols - 1) * pitch / 2;
+      list.forEach(function (e, i) {
+        var col = i % cols, lev = Math.floor(i / cols);
+        out += '<circle cx="' + (cx0 + col * pitch).toFixed(1) + '" cy="' + (base - 4 - lev * pitch).toFixed(1) + '" r="' + rad + '" fill="' + row.c + '" data-tip="' + engTip(e) + '"/>';
+      });
+    });
+    var m = median(E.map(function (e) { return e[row.k]; })), mx = x(m);
+    out += '<line x1="' + mx + '" x2="' + mx + '" y1="' + (top - 6) + '" y2="' + (base + 6) + '" stroke="' + C.ink + '" stroke-width="2"/>';
+    out += t(mx + 5, top + 2, 'median ' + fmt(m), { fill: C.ink, weight: 600, size: 11.5 });
+    y = base + 22;
+  });
+  [0, 25, 50, 75, 100].forEach(function (v) { out += t(x(v), y, v, { anchor: 'middle', size: 11.5 }); });
+  host.innerHTML = svg(W, y + 6, out, 'Dot plot of every engineer’s score on each of the four scenarios');
+  bindTips(host);
+}
+
+/* ================================================================ FIG 2 scatter */
+var SC_TEAM = 'All';
+function renderScatter() {
+  var host = $('#scatter'), W = width(host), H = Math.min(520, Math.max(340, W * 0.55));
+  var L = 46, R = 16, T = 14, B = 44, pw = W - L - R, ph = H - T - B;
+  var y0 = 20;
+  var x = function (v) { return L + v / 100 * pw; }, y = function (v) { return T + ph - (v - y0) / (100 - y0) * ph; };
+  var o = '';
+  /* quadrant tint + labels */
+  var qx = x(CUTS.process), qy = y(CUTS.outcome);
+  o += '<rect x="' + qx + '" y="' + T + '" width="' + (L + pw - qx) + '" height="' + (qy - T) + '" fill="#ECF7EC"/>';
+  o += '<rect x="' + L + '" y="' + qy + '" width="' + (qx - L) + '" height="' + (T + ph - qy) + '" fill="#F8EEE8"/>';
+  [20, 40, 60, 80, 100].forEach(function (v) { o += '<line x1="' + L + '" x2="' + (L + pw) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="' + C.faint + '"/>' + t(L - 8, y(v), v, { anchor: 'end', base: 'middle', size: 11 }); });
+  [0, 25, 50, 75, 100].forEach(function (v) { o += t(x(v), T + ph + 18, v, { anchor: 'middle', size: 11 }); });
+  o += '<line x1="' + qx + '" x2="' + qx + '" y1="' + T + '" y2="' + (T + ph) + '" stroke="#9AA6A2" stroke-dasharray="4 4"/>';
+  o += '<line x1="' + L + '" x2="' + (L + pw) + '" y1="' + qy + '" y2="' + qy + '" stroke="#9AA6A2" stroke-dasharray="4 4"/>';
+  o += t(L + pw / 2, H - 4, 'Direction (Harness score) →', { anchor: 'middle', fill: C.ink, weight: 600, size: 12 });
+  o += '<text transform="translate(12,' + (T + ph / 2) + ') rotate(-90)" font-size="12" font-weight="600" fill="' + C.ink + '" text-anchor="middle">Output (mean of three scenarios) →</text>';
+  var lab = function (s, n, xx, yy, anchor) { return t(xx, yy, s + ' · ' + n, { anchor: anchor, fill: C.ink, weight: 700, size: 12 }); };
+  o += lab('Passengers', NUM.nPass, x(2), T + 14, 'start');
+  o += lab('Conductors', NUM.nCond, x(98), T + 14, 'end');
+  o += lab('At risk', NUM.nRisk, x(2), T + ph - 8, 'start');
+  o += lab('Navigators', NUM.nNav, x(98), T + ph - 8, 'end');
+  /* dots: drawn in a fixed order; highlighted team on top */
+  var list = E.slice().sort(function (a, b) { return (a.team === SC_TEAM) - (b.team === SC_TEAM); });
+  list.forEach(function (e) {
+    var on = SC_TEAM === 'All' || e.team === SC_TEAM;
+    /* jitter, clamped so no dot is nudged across a profile line */
+    var hx = e.harness + (hash(e.id) - 0.5) * 4, oy = e.outcome + (hash(e.id + 'y') - 0.5) * 1.5;
+    hx = e.harness >= CUTS.process ? Math.max(CUTS.process + 0.6, hx) : Math.min(CUTS.process - 0.6, hx);
+    oy = e.outcome >= CUTS.outcome ? Math.max(CUTS.outcome + 0.4, oy) : Math.min(CUTS.outcome - 0.4, oy);
+    hx = Math.min(100, Math.max(0, hx));
+    o += '<circle cx="' + x(hx).toFixed(1) + '" cy="' + y(oy).toFixed(1) + '" r="' + (on ? 5.5 : 4) +
+      '" fill="' + SEGC[e.segment] + '" fill-opacity="' + (on ? 0.9 : 0.14) + '" stroke="#fff" stroke-width="1.5" data-tip="' + engTip(e) + '" tabindex="' + (on ? 0 : -1) + '"/>';
+  });
+  /* the real reference record */
+  var rx = x(5), ry = y(85);
+  o += '<circle cx="' + rx + '" cy="' + ry + '" r="9" fill="none" stroke="' + C.ink + '" stroke-width="2"/>';
+  o += '<circle cx="' + rx + '" cy="' + ry + '" r="3" fill="' + C.ink + '" data-tip="' + esc('<div class="t">Real record (anonymized)</div>Direction <b>5</b> · Output <b>85</b> · Blended <b>50</b><br>Harness 5 · Fullstack 70 · RAG 100 · Web 85') + '"/>';
+  if (W < 640) o += t(rx + 13, ry + 4, 'Real record', { fill: C.ink, weight: 600, size: 11 });
+  else o += '<line x1="' + rx + '" y1="' + (ry - 9) + '" x2="' + rx + '" y2="' + (ry - 26) + '" stroke="' + C.ink + '"/>' + t(rx, ry - 30, 'Real record', { fill: C.ink, weight: 600, size: 11.5, anchor: 'middle' });
+  host.innerHTML = svg(W, H, o, 'Scatter plot of direction score against output score for 100 engineers');
+  bindTips(host);
+}
+function initScatter() {
+  var g = $('#sc-teams');
+  g.innerHTML = ['All'].concat(TEAMS).map(function (n) { return '<button type="button" data-team="' + esc(n) + '" aria-pressed="' + (n === 'All') + '">' + esc(n === 'All' ? 'All teams' : n) + '</button>'; }).join('');
+  $$('button', g).forEach(function (b) {
+    b.addEventListener('click', function () {
+      SC_TEAM = b.getAttribute('data-team');
+      $$('button', g).forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+      renderScatter();
+    });
+  });
+  $('#sc-legend').innerHTML = SEGS.map(function (s) { return '<span><i style="background:' + s.c + '"></i>' + s.label + ' (' + A.segments[s.k] + ')</span>'; }).join('') +
+    '<span><i style="background:#fff;box-shadow:0 0 0 2px ' + C.ink + '"></i>Real record</span>';
+}
+
+/* ================================================================ FIG 3 dims */
+function renderDims() {
+  var host = $('#dims'), W = width(host);
+  var rows = [];
+  Object.keys(A.hdims).forEach(function (k) { rows.push({ name: k, v: A.hdims[k], c: C.process, g: 'Direction' }); });
+  Object.keys(A.fdims).forEach(function (k) { rows.push({ name: k, v: A.fdims[k], c: C.output, g: 'Output' }); });
+  var LW = W < 560 ? 120 : 170, R = 44, bh = 18, gap = 12, o = '', y = 0, pw = W - LW - R;
+  rows.forEach(function (r, i) {
+    if (i === 4) y += 14;
+    o += t(LW - 10, y + bh / 2, r.name, { anchor: 'end', base: 'middle', fill: C.ink, size: 13 });
+    o += '<rect x="' + LW + '" y="' + y + '" width="' + pw + '" height="' + bh + '" fill="' + C.faint + '" rx="3"/>';
+    o += hbar(LW, y, pw * r.v / 100, bh, r.c, ' data-tip="' + esc('<div class="t">' + r.g + ' · ' + r.name + '</div><b>' + r.v + '%</b> of checks passed, cohort average') + '"');
+    o += t(LW + pw * r.v / 100 + 6, y + bh / 2, r.v + '%', { base: 'middle', fill: C.ink, weight: 600, size: 12.5 });
+    y += bh + gap;
+  });
+  host.innerHTML = svg(W, y, o, 'Bar chart of rubric pass rates by dimension');
+  bindTips(host);
+}
+
+/* ================================================================ FIG 4 items */
+function renderItems() {
+  var host = $('#items'), W = width(host), narrow = W < 700;
+  var dims = ['Orienting', 'Planning', 'Workflow', 'Verifying'];
+  var LW = narrow ? 0 : Math.min(470, W * 0.5), R = 40, bh = 14, o = '', y = 0, pw = W - LW - R;
+  dims.forEach(function (d) {
+    o += t(0, y + 12, d.toUpperCase(), { fill: C.sub, weight: 700, size: 11.5 });
+    y += 24;
+    ITEMS.filter(function (i) { return i.scenario === 'harness' && i.dim === d; })
+      .sort(function (a, b) { return a.rate - b.rate; })
+      .forEach(function (it) {
+        var rare = it.rate <= 25, c = rare ? C.loss : C.process;
+        if (narrow) {
+          var maxc = Math.floor(W / 6.6), words = it.label.split(' '), lines = [''];
+          words.forEach(function (w) { var cur = lines[lines.length - 1]; if ((cur + ' ' + w).trim().length > maxc) lines.push(w); else lines[lines.length - 1] = (cur + ' ' + w).trim(); });
+          lines.forEach(function (ln) { o += t(0, y + 10, ln, { fill: C.ink, size: 12 }); y += 15; });
+          y += 3;
+        }
+        else o += t(LW - 10, y + bh / 2, it.label, { anchor: 'end', base: 'middle', fill: C.ink, size: 13 });
+        o += '<rect x="' + LW + '" y="' + y + '" width="' + pw + '" height="' + bh + '" fill="' + C.faint + '" rx="3"/>';
+        o += hbar(LW, y, pw * it.rate / 100, bh, c, ' data-tip="' + esc('<div class="t">' + it.label + '</div><b>' + it.rate + '</b> of ' + NUM.n + ' engineers') + '"');
+        o += t(LW + pw * it.rate / 100 + 6, y + bh / 2, it.rate, { base: 'middle', fill: rare ? '#9A4519' : C.ink, weight: 600, size: 12 });
+        y += bh + 9;
+      });
+    y += 10;
+  });
+  host.innerHTML = svg(W, y, o, 'Bar chart of how many engineers showed each of the 18 direction behaviours');
+  bindTips(host);
+}
+
+/* ================================================================ FIG 5 mix */
+function renderMix() {
+  var host = $('#mix'), W = width(host), narrow = W < 640;
+  var cats = [['steer', 'Steering the agent'], ['setup', 'Setup and access'], ['paste', 'Pasting the brief'], ['deleg', 'Handing judgment to the agent'], ['time', 'Status and time checks']];
+  var LW = narrow ? 0 : 220, R = 20, rowH = narrow ? 48 : 38, pw = W - LW - R, max = 60, o = '', y = 0;
+  var x = function (v) { return LW + v / max * pw; };
+  cats.forEach(function (c, ci) {
+    var cy = y + (narrow ? 30 : rowH / 2);
+    if (narrow) o += t(0, y + 12, c[1], { fill: C.ink, weight: 600, size: 12.5 });
+    else o += t(LW - 14, cy, c[1], { anchor: 'end', base: 'middle', fill: C.ink, weight: ci === 0 ? 700 : 400, size: 13.5 });
+    o += '<line x1="' + LW + '" x2="' + (LW + pw) + '" y1="' + cy + '" y2="' + cy + '" stroke="' + C.line + '"/>';
+    var vals = SEGS.map(function (s) { return { s: s, v: A.mixBySeg[s.k][c[0]] }; });
+    var lo = Math.min.apply(null, vals.map(function (v) { return v.v; })), hi = Math.max.apply(null, vals.map(function (v) { return v.v; }));
+    o += '<line x1="' + x(lo) + '" x2="' + x(hi) + '" y1="' + cy + '" y2="' + cy + '" stroke="#C9D0CE" stroke-width="3" stroke-linecap="round"/>';
+    vals.forEach(function (v) {
+      o += '<circle cx="' + x(v.v) + '" cy="' + cy + '" r="7" fill="' + v.s.c + '" stroke="#fff" stroke-width="2" data-tip="' +
+        esc('<div class="t">' + v.s.label + '</div>' + c[1] + ': <b>' + fmt(v.v) + '%</b> of prompts') + '"/>';
+    });
+    y += rowH + (narrow ? 4 : 0);
+  });
+  [0, 20, 40, 60].forEach(function (v) { o += t(x(v), y + 14, v + '%', { anchor: 'middle', size: 11 }); });
+  host.innerHTML = svg(W, y + 20, o, 'Dot plot of prompt mix by engineer profile');
+  $('#mix-legend').innerHTML = SEGS.map(function (s) { return '<span><i style="background:' + s.c + '"></i>' + s.label + '</span>'; }).join('');
+  bindTips(host);
+}
+
+/* ================================================================ FIG 6 timeline (real record) */
+var TURNS = [
+  [0,'setup',1,'Environment context, supplied automatically by the agent'],
+  [0,'paste',4,'Pasted the full task brief, then asked the agent to “check in to github repo… could you please do it”'],
+  [2,'setup',1,'“we have to download it in D folder”'],
+  [3,'setup',1,'Pasted the repository URL'],
+  [4,'time',1,'“you have the requirement right?”'],
+  [5,'setup',2,'Answered the agent’s GitHub sign-in question: no prompt appeared'],
+  [6,'setup',2,'Pasted a screenshot: “this is my github”'],
+  [7,'setup',1,'“cant see anything”'],
+  [7,'time',1,'“I have 26 mins to complete this task”'],
+  [8,'setup',1,'“do I have to download git?”'],
+  [9,'setup',2,'Pasted a screenshot: “I can access it”'],
+  [9,'setup',1,'Pasted the repository URL again'],
+  [12,'setup',1,'“please try now” after the device sign-in succeeded'],
+  [13,'time',1,'“we have only 20 mins please do it fast”'],
+  [18,'paste',4,'Pasted the full brief again: “you have all the requirement with you?”'],
+  [20,'steer',1,'“once we are completing the requirement… push the code in the github with comments”'],
+  [23,'time',1,'“we have 9 mins… do you think we can complete it?”'],
+  [28,'time',1,'“we have 6 mins left”'],
+  [31,'time',1,'“we have only 3 mins”'],
+  [32,'time',1,'“have you given a note?”'],
+  [35,'paste',4,'Pasted the second scenario’s brief (the RAG incident)'],
+  [36,'paste',1,'Pasted a screenshot of the architecture'],
+  [36,'deleg',1,'“you can give me those root causes in this chat”'],
+  [38,'steer',1,'“can you reevaluate again please with far more deeper thoughts”'],
+  [40,'deleg',1,'“so what to do, copy paste as answers?”'],
+  [41,'deleg',2,'Pasted one of the agent’s paragraphs back: “should I include this para?”'],
+  [42,'deleg',1,'“can you make it in humanoid language?”'],
+  [45,'paste',3,'Pasted the next challenge’s instructions'],
+  [45,'setup',3,'Invoked the session-log export skill'],
+  [46,'deleg',1,'“what it wants to do?”'],
+  [46,'deleg',1,'“I mean what this exam wants to know?”'],
+  [47,'deleg',1,'“can we make the log better?”'],
+  [47,'time',1,'“ok then lets do it”']
+];
+function renderTimeline() {
+  var host = $('#timeline'), W = width(host), narrow = W < 640;
+  var lanes = [['steer', 'Steering', C.emerald], ['setup', 'Setup and access', C.process], ['paste', 'Pasting the brief', C.process], ['deleg', 'Handing judgment', C.process], ['time', 'Status and time', C.process]];
+  var LW = narrow ? 0 : 150, R = 20, laneH = narrow ? 50 : 40, T = 26, pw = W - LW - R, H = T + lanes.length * laneH + 30;
+  var x = function (m) { return LW + m / 48 * pw; };
+  var o = '';
+  o += '<rect x="' + x(0) + '" y="' + (T - 6) + '" width="' + (x(18) - x(0)) + '" height="' + (lanes.length * laneH + 6) + '" fill="#FFF6E3"/>';
+  o += t(x(0) + 6, T - 10, 'First 18 minutes: getting the agent into the repository', { fill: '#7A5208', weight: 600, size: 11.5 });
+  var count = {};
+  TURNS.forEach(function (tn) { count[tn[1]] = (count[tn[1]] || 0) + 1; });
+  lanes.forEach(function (ln, i) {
+    var cy = T + i * laneH + laneH / 2;
+    o += '<line x1="' + LW + '" x2="' + (LW + pw) + '" y1="' + cy + '" y2="' + cy + '" stroke="' + C.line + '"/>';
+    var label = ln[1] + ' (' + (count[ln[0]] || 0) + ')';
+    if (narrow) o += t(2, cy - 15, label, { fill: C.ink, weight: 600, size: 11.5 });
+    else o += t(LW - 12, cy, label, { anchor: 'end', base: 'middle', fill: C.ink, weight: i === 0 ? 700 : 400, size: 13 });
+  });
+  var seen = {};
+  TURNS.forEach(function (tn, idx) {
+    var li = lanes.map(function (l) { return l[0]; }).indexOf(tn[1]);
+    var key = tn[1] + tn[0]; seen[key] = (seen[key] || 0) + 1;
+    var cx = x(tn[0]) + (seen[key] - 1) * 7, cy = T + li * laneH + laneH / 2, r = 3 + tn[2] * 1.6;
+    o += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + lanes[li][2] + '" fill-opacity=".9" stroke="#fff" stroke-width="1.5" tabindex="0" data-tip="' +
+      esc('<div class="t">Prompt ' + (idx + 1) + ' · minute ' + tn[0] + '</div>' + esc(tn[3])) + '"/>';
+  });
+  [0, 10, 20, 30, 40, 47].forEach(function (m) { o += t(x(m), H - 8, m + (m === 47 ? ' min' : ''), { anchor: 'middle', size: 11 }); });
+  host.innerHTML = svg(W, H, o, 'Timeline of the 33 prompts in one engineer’s session');
+  bindTips(host);
+}
+
+/* ================================================================ FIG 7 waffle */
+function renderWaffle() {
+  var host = $('#waffle'), W = width(host);
+  var cats = [
+    { k: 'a', label: 'RAG ≥ 90, flagged', c: '#A6461A', f: function (e) { return e.rag >= 90 && e.unedited; } },
+    { k: 'b', label: 'RAG ≥ 90, not flagged', c: '#5FA8B0', f: function (e) { return e.rag >= 90 && !e.unedited; } },
+    { k: 'c', label: 'RAG < 90, flagged', c: '#E7B9A2', f: function (e) { return e.rag < 90 && e.unedited; } },
+    { k: 'd', label: 'RAG < 90, not flagged', c: '#E7E9EA', f: function (e) { return e.rag < 90 && !e.unedited; } }
+  ];
+  var ordered = [];
+  cats.forEach(function (c) { var g = E.filter(c.f); c.n = g.length; g.forEach(function (e) { ordered.push({ e: e, c: c }); }); });
+  var cols = W < 520 ? 10 : 20, size = Math.min(26, Math.floor((Math.min(W, 640) - (cols - 1) * 3) / cols)), gap = 3;
+  var o = '';
+  ordered.forEach(function (d, i) {
+    var cx = (i % cols) * (size + gap), cy = Math.floor(i / cols) * (size + gap);
+    o += '<rect x="' + cx + '" y="' + cy + '" width="' + size + '" height="' + size + '" rx="3" fill="' + d.c.c + '" data-tip="' +
+      esc('<div class="t">' + d.e.id + ' · ' + d.c.label + '</div>RAG <b>' + d.e.rag + '</b> · Direction <b>' + d.e.harness + '</b><br>' + d.e.team) + '"/>';
+  });
+  var rows = Math.ceil(ordered.length / cols);
+  host.innerHTML = svg(cols * (size + gap), rows * (size + gap), o, 'Waffle chart of engineers by RAG score and ownership flag');
+  $('#waffle-legend').innerHTML = cats.map(function (c) { return '<span><i class="sq" style="background:' + c.c + (c.k === 'd' ? ';box-shadow:inset 0 0 0 1px #C9D0CE' : '') + '"></i>' + c.label + ' (' + c.n + ')</span>'; }).join('');
+  bindTips(host);
+}
+
+/* ================================================================ FIG 8 team table */
+function heat(v) {
+  /* single-hue sequential: lightest emerald -> accent text green */
+  var a = [236, 247, 236], b = [43, 113, 41], tt = Math.max(0, Math.min(1, (v - 10) / 85));
+  var c = a.map(function (x, i) { return Math.round(x + (b[i] - x) * tt); });
+  return { bg: 'rgb(' + c.join(',') + ')', fg: tt > 0.5 ? '#fff' : '#10292C' };
+}
+function cell(v) { var h = heat(v); return '<span class="heat" style="background:' + h.bg + ';color:' + h.fg + '">' + fmt(v) + '</span>'; }
+function compbar(segs, n) {
+  return '<div class="compbar" role="img" aria-label="' + SEGS.map(function (s) { return s.label + ' ' + segs[s.k]; }).join(', ') + '">' +
+    SEGS.filter(function (s) { return segs[s.k] > 0; }).map(function (s) {
+      return '<span tabindex="0" style="flex:' + segs[s.k] + ';background:' + s.c + '" data-tip="' + esc('<div class="t">' + s.label + '</div><b>' + segs[s.k] + '</b> of ' + n + ' engineers') + '"></span>';
+    }).join('') + '</div>';
+}
+function renderTeams() {
+  var h = '<caption class="vh">Median scores and profile counts by team</caption><thead><tr><th>Team</th><th class="r">n</th><th class="c">Direction</th><th class="c">Fullstack</th><th class="c">RAG</th><th class="c">Web</th><th class="c">Blended</th><th>Profile mix</th><th class="r">Setup (min)</th></tr></thead><tbody>';
+  A.byTeam.forEach(function (tm) {
+    var setup = median(E.filter(function (e) { return e.team === tm.name; }).map(function (e) { return e.setup; }));
+    h += '<tr><td><b style="color:#10292C">' + esc(tm.name) + '</b></td><td class="r">' + tm.n + '</td><td class="c">' + cell(tm.harness) + '</td><td class="c">' + cell(tm.fullstack) +
+      '</td><td class="c">' + cell(tm.rag) + '</td><td class="c">' + cell(tm.web) + '</td><td class="c">' + cell(tm.blended) + '</td><td>' + compbar(tm.segs, tm.n) +
+      '</td><td class="r">' + fmt(setup) + '</td></tr>';
+  });
+  $('#teamtbl').innerHTML = h + '</tbody>';
+  $('#team-legend').innerHTML = SEGS.map(function (s) { return '<span><i class="sq" style="background:' + s.c + '"></i>' + s.label + '</span>'; }).join('') +
+    '<span style="margin-left:10px">Median shading: ' + cell(20) + ' ' + cell(50) + ' ' + cell(80) + '</span>';
+  bindTips($('#teamtbl'));
+}
+
+/* ================================================================ FIG 9 slices */
+var SL_KEY = 'bySen';
+function renderSlices() {
+  var host = $('#slices'), W = width(host), groups = A[SL_KEY];
+  var scen = [['harness', 'Harness (direction)', C.process], ['fullstack', 'Fullstack', C.output], ['rag', 'RAG', C.output], ['web', 'Web', C.output]];
+  var perRow = W < 560 ? 2 : 4, gapX = 22, cw = (W - gapX * (perRow - 1)) / perRow, ch = 170, o = '';
+  scen.forEach(function (s, si) {
+    var ox = (si % perRow) * (cw + gapX), oy = Math.floor(si / perRow) * (ch + 60);
+    var base = oy + ch - 10, top = oy + 34, plotH = base - top;
+    o += t(ox, oy + 14, s[1], { fill: C.ink, weight: 700, size: 13 });
+    [0, 50, 100].forEach(function (v) {
+      var yy = base - v / 100 * plotH;
+      o += '<line x1="' + ox + '" x2="' + (ox + cw) + '" y1="' + yy + '" y2="' + yy + '" stroke="' + (v ? C.faint : C.line) + '"/>';
+      if (si % perRow === 0 || true) o += t(ox + cw, yy - 3, v, { anchor: 'end', size: 10 });
+    });
+    var bw = Math.min(40, (cw - 30) / groups.length - 8);
+    groups.forEach(function (g, gi) {
+      var bx = ox + 4 + gi * ((cw - 30) / groups.length) + 4, v = g[s[0]];
+      o += vbar(bx, base, bw, v / 100 * plotH, s[2], ' data-tip="' + esc('<div class="t">' + g.name + ' · ' + s[1] + '</div>Median <b>' + fmt(v) + '</b> · n = ' + g.n) + '"');
+      o += t(bx + bw / 2, base - v / 100 * plotH - 5, fmt(v), { anchor: 'middle', fill: C.ink, weight: 600, size: 11 });
+      var short = g.name.replace('Lead / Staff', 'Lead').replace('Claude Code', 'Claude').replace('Copilot CLI', 'Copilot');
+      if (cw < 200) short = short.replace('Associate', 'Assoc.').replace('Copilot', 'Copilot');
+      o += t(bx + bw / 2, base + 14, short, { anchor: 'middle', fill: C.ink, size: cw < 200 ? 10 : 11 });
+      o += t(bx + bw / 2, base + 27, 'n=' + g.n, { anchor: 'middle', size: 10 });
+    });
+  });
+  var rows = Math.ceil(scen.length / perRow);
+  host.innerHTML = svg(W, rows * (ch + 60) - 26, o, 'Small multiples of median scenario scores by group');
+  bindTips(host);
+}
+function initSlices() {
+  $$('#sl-mode button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      SL_KEY = b.getAttribute('data-k');
+      $$('#sl-mode button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+      renderSlices();
+    });
+  });
+}
+
+/* ================================================================ FIG 10 sizer */
+function renderSizer() {
+  var ratio = +$('#r-ratio').value, avail = +$('#r-avail').value / 100;
+  $('#o-ratio').textContent = ratio; $('#o-avail').textContent = Math.round(avail * 100) + '%';
+  var tot = { train: 0, cond: 0, need: 0 };
+  var h = '<caption class="vh">Embedded engineers needed by team</caption><thead><tr><th>Team</th><th class="r">Passengers</th><th class="r">At risk</th><th class="r">Navigators</th><th class="r">Internal Conductors</th><th class="r">Andela 301 engineers</th></tr></thead><tbody>';
+  A.byTeam.forEach(function (tm) {
+    var train = tm.segs.Passenger + tm.segs['At risk'];
+    var need = Math.max(0, Math.ceil(+(train / ratio - avail * tm.segs.Conductor).toFixed(6)));
+    tot.train += train; tot.cond += tm.segs.Conductor; tot.need += need;
+    h += '<tr><td><b style="color:#10292C">' + esc(tm.name) + '</b></td><td class="r">' + tm.segs.Passenger + '</td><td class="r">' + tm.segs['At risk'] + '</td><td class="r">' + tm.segs.Navigator +
+      '</td><td class="r">' + tm.segs.Conductor + '</td><td class="r"><b style="color:#2B7129;font-size:15px">' + need + '</b></td></tr>';
+  });
+  $('#sizetbl').innerHTML = h + '</tbody>';
+  $('#sizetot').innerHTML =
+    '<div><div class="vn">' + tot.train + '</div><div class="vl">Passengers and at-risk engineers to coach</div></div>' +
+    '<div><div class="vn">' + A.segments.Navigator + '</div><div class="vl">Navigators joining Andela 101</div></div>' +
+    '<div><div class="vn">' + tot.need + '</div><div class="vl">embedded Andela engineers through Andela 301</div></div>';
+}
+
+/* ================================================================ appendix tables */
+function renderItemTable() {
+  var names = { harness: 'Harness', fullstack: 'Fullstack', rag: 'RAG', web: 'Web' };
+  $('#nitems').textContent = ITEMS.length;
+  var h = '<thead><tr><th>Scenario</th><th>Dimension</th><th>Check</th><th>Engineers passing (of ' + NUM.n + ')</th></tr></thead><tbody>';
+  ITEMS.forEach(function (it) {
+    h += '<tr><td>' + names[it.scenario] + '</td><td>' + esc(it.dim) + '</td><td>' + esc(it.label) + '</td><td><div class="minibar"><span class="' + (it.scenario === 'harness' ? 'p' : '') + '" style="width:' + (it.rate * 1.2) + 'px"></span>' + it.rate + '</div></td></tr>';
+  });
+  $('#itemtbl').innerHTML = h + '</tbody>';
+}
+var EX = { key: 'blended', dir: -1 };
+function renderExplorer() {
+  var tm = $('#ex-team').value, sg = $('#ex-seg').value;
+  var rows = E.filter(function (e) { return (tm === 'All' || e.team === tm) && (sg === 'All' || e.segment === sg); });
+  rows.sort(function (a, b) { var x = a[EX.key], y = b[EX.key]; return (x < y ? -1 : x > y ? 1 : 0) * EX.dir; });
+  var cols = [['id', 'ID'], ['team', 'Team'], ['seniority', 'Seniority'], ['tool', 'Tool'], ['segment', 'Profile'], ['harness', 'Harness', 1], ['fullstack', 'Fullstack', 1], ['rag', 'RAG', 1], ['web', 'Web', 1], ['blended', 'Blended', 1], ['band', 'Band'], ['setup', 'Setup min', 1]];
+  var h = '<thead><tr>' + cols.map(function (c) {
+    var s = EX.key === c[0] ? (EX.dir > 0 ? 'ascending' : 'descending') : 'none';
+    return '<th class="sortable' + (c[2] ? ' r' : '') + '" data-k="' + c[0] + '" aria-sort="' + s + '" tabindex="0">' + c[1] + '</th>';
+  }).join('') + '</tr></thead><tbody>';
+  rows.forEach(function (e) {
+    h += '<tr>' + cols.map(function (c) {
+      var v = e[c[0]];
+      if (c[0] === 'segment') v = '<span class="pill"><i style="background:' + SEGC[v] + '"></i>' + esc(v) + '</span>'; else v = esc(v);
+      return '<td' + (c[2] ? ' class="r"' : '') + '>' + v + '</td>';
+    }).join('') + '</tr>';
+  });
+  $('#extbl').innerHTML = h + '</tbody>';
+  $('#ex-count').textContent = rows.length + ' engineers';
+  $$('#extbl th.sortable').forEach(function (th) {
+    var go = function () { var k = th.getAttribute('data-k'); EX.dir = EX.key === k ? -EX.dir : (typeof E[0][k] === 'number' ? -1 : 1); EX.key = k; renderExplorer(); };
+    th.addEventListener('click', go);
+    th.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); go(); } });
+  });
+}
+function initExplorer() {
+  $('#ex-team').innerHTML = ['All'].concat(TEAMS).map(function (n) { return '<option value="' + esc(n) + '">' + esc(n === 'All' ? 'All teams' : n) + '</option>'; }).join('');
+  $('#ex-seg').innerHTML = ['All'].concat(SEGS.map(function (s) { return s.k; })).map(function (n) { return '<option value="' + esc(n) + '">' + esc(n === 'All' ? 'All profiles' : n) + '</option>'; }).join('');
+  $('#ex-team').addEventListener('change', renderExplorer);
+  $('#ex-seg').addEventListener('change', renderExplorer);
+}
+
+/* ================================================================ boot */
+function drawAll() { renderWeights(); renderStrips(); renderScatter(); renderDims(); renderItems(); renderMix(); renderTimeline(); renderSlices(); }
+hydrate();
+initScatter(); initSlices();
+drawAll(); renderTeams();
+initFade();
+/* highlight the nav link for the section in view */
+(function () {
+  var links = $$('.topnav a'), map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (en) {
+    en.forEach(function (x) {
+      if (x.isIntersecting) {
+        links.forEach(function (a) { a.removeAttribute('aria-current'); });
+        var a = map[x.target.id]; if (a) a.setAttribute('aria-current', 'true');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  Object.keys(map).forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+})();
+var rz, lastW = window.innerWidth;
+window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (window.innerWidth !== lastW) { lastW = window.innerWidth; drawAll(); } }, 150); });
+</script>
+</body>
+</html>
